@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rep - 経営者のための最高のコミュニティ</title>
+
+  <!-- OGP -->
+  <meta property="og:title" content="Rep - 経営者のための最高のコミュニティ">
+  <meta property="og:description" content="完全招待制・本人確認必須。経営者だけが集まるクローズドSNS。">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rep.garoinc.jp">
+  <meta property="og:image" content="https://rep.garoinc.jp/ogp.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@200;300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --brand: #CCFF33;
+      --bg: #000000;
+      --text: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.5);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-snap-type: y mandatory;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ========================================
+       Section 1: Teaser
+    ======================================== */
+    .section-teaser {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      scroll-snap-align: start;
+      overflow: hidden;
+    }
+
+    .teaser-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 5vh 6vw 20vh;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Logo */
+    .logo {
+      margin-bottom: 5vh;
+      opacity: 0;
+      animation: fadeUp 0.8s ease-out 0.2s forwards;
+    }
+
+    .logo svg {
+      height: clamp(36px, 5vw, 56px);
+      width: auto;
+    }
+
+    /* Badge */
+    .badge {
+      display: inline-block;
+      padding: clamp(8px, 1.2vw, 14px) clamp(20px, 3vw, 44px);
+      border: 1px solid rgba(204, 255, 51, 0.4);
+      font-size: clamp(11px, 1.4vw, 16px);
+      font-weight: 400;
+      color: var(--brand);
+      letter-spacing: 0.25em;
+      margin-bottom: 5vh;
+      opacity: 0;
+      animation: fadeUp 0.8s ease-out 0.35s forwards;
+    }
+
+    /* Counter */
+    .counter {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: clamp(16px, 3vw, 40px);
+      margin-bottom: 6vh;
+      opacity: 0;
+      animation: fadeUp 0.8s ease-out 0.5s forwards;
+      position: relative;
+    }
+
+    .counter::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: clamp(280px, 50vw, 600px);
+      height: clamp(120px, 20vw, 240px);
+      background: radial-gradient(ellipse at center, rgba(204, 255, 51, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .counter-prefix,
+    .counter-suffix {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(14px, 2vw, 26px);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.55);
+      letter-spacing: 0.35em;
+    }
+
+    .counter-number {
+      font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
+      font-size: clamp(56px, 12vw, 160px);
+      font-weight: 400;
+      color: var(--brand);
+      letter-spacing: 0.08em;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      transform: scaleX(0.85);
+    }
+
+    /* Email Form */
+    .form-wrapper {
+      width: 100%;
+      max-width: 480px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease-out 0.65s forwards;
+    }
+
+    .email-form {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 8px;
+      padding: 6px;
+    }
+
+    .email-form:focus-within {
+      border-color: rgba(204, 255, 51, 0.4);
+    }
+
+    .email-input {
+      flex: 1;
+      min-width: 0;
+      background: transparent;
+      border: none;
+      padding: 16px 20px;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 400;
+      font-family: inherit;
+      outline: none;
+    }
+
+    .email-input::placeholder {
+      color: rgba(255, 255, 255, 0.45);
+    }
+
+    .email-submit {
+      padding: 16px 28px;
+      background: var(--brand);
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .email-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(204, 255, 51, 0.25);
+    }
+
+    .form-note {
+      margin-top: clamp(16px, 2vw, 24px);
+      font-size: clamp(11px, 1.2vw, 14px);
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+
+    .form-note .highlight {
+      color: var(--brand);
+      font-weight: 500;
+    }
+
+    .form-error {
+      margin-top: 12px;
+      font-size: 12px;
+      color: #ff6b6b;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .form-error.visible {
+      opacity: 1;
+    }
+
+    /* Scroll Indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 8vh;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      opacity: 0;
+      animation: fadeUp 0.8s ease-out 1s forwards;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .scroll-text {
+      font-size: clamp(14px, 1.4vw, 18px);
+      font-weight: 400;
+      color: var(--text);
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+
+    .scroll-hint {
+      font-size: clamp(10px, 1vw, 12px);
+      color: var(--brand);
+      letter-spacing: 0.2em;
+      text-transform: lowercase;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    /* Arc - Large circle showing only top edge */
+    .arc-container {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: max(1800px, 150vw);
+      height: max(1800px, 150vw);
+      border-radius: 50%;
+      border: 2px solid var(--brand);
+      background: transparent;
+      pointer-events: none;
+      opacity: 0;
+      animation: arcReveal 1.2s ease-out 0.8s forwards;
+      z-index: 1;
+      margin-bottom: calc(-1 * max(1800px, 150vw) + 30vh);
+      box-shadow:
+        0 0 10px rgba(204, 255, 51, 0.6),
+        0 0 30px rgba(204, 255, 51, 0.4),
+        0 0 60px rgba(204, 255, 51, 0.2),
+        inset 0 0 10px rgba(204, 255, 51, 0.1);
+    }
+
+    /* ========================================
+       Section 2: LP
+    ======================================== */
+    .section-lp {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+      scroll-snap-align: start;
+      overflow: hidden;
+      padding: 5vh 0 15vh;
+      background: #000;
+    }
+
+    .lp-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 clamp(24px, 5vw, 80px);
+      position: relative;
+      z-index: 2;
+    }
+
+    .lp-left {
+      width: 100%;
+      max-width: 600px;
+      margin-bottom: clamp(16px, 3vh, 32px);
+    }
+
+    .lp-headline {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(20px, 3vw, 36px);
+      font-weight: 500;
+      line-height: 1.4;
+      margin-bottom: clamp(8px, 1.5vh, 16px);
+      letter-spacing: 0.05em;
+      color: var(--text);
+    }
+
+    .lp-headline .quote {
+      color: var(--brand);
+    }
+
+    .lp-subhead {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(24px, 4vw, 48px);
+      font-weight: 700;
+      color: var(--brand);
+      margin-bottom: clamp(20px, 3vh, 36px);
+      letter-spacing: 0.05em;
+    }
+
+    .lp-form {
+      width: 100%;
+      max-width: min(420px, 75vw);
+      margin: 0 auto;
+    }
+
+    .lp-right {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .app-mockups {
+      width: 100%;
+      max-width: clamp(280px, 45vw, 450px);
+      background: transparent;
+    }
+
+    .app-mockups img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: transparent;
+    }
+
+    /* ========================================
+       Footer
+    ======================================== */
+    .footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: clamp(24px, 4vw, 48px);
+      margin-bottom: 12px;
+    }
+
+    .footer-link {
+      font-size: clamp(10px, 1vw, 12px);
+      color: rgba(255, 255, 255, 0.35);
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .footer-link:hover {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .copyright {
+      font-size: clamp(9px, 0.9vw, 11px);
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* ========================================
+       Animations
+    ======================================== */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes arcReveal {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    /* Scroll-triggered animations */
+    .reveal {
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(40px);
+      transition: opacity 0.8s ease-out, transform 0.8s ease-out, visibility 0.8s;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* ========================================
+       Questionnaire & Thank You (hidden initially)
+    ======================================== */
+    .questionnaire,
+    .thank-you {
+      display: none;
+      width: 100%;
+      max-width: min(400px, 85vw);
+      text-align: center;
+    }
+
+    .questionnaire.visible,
+    .thank-you.visible {
+      display: block;
+    }
+
+    .questionnaire-title {
+      font-size: clamp(16px, 1.8vw, 20px);
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    .questionnaire-desc {
+      font-size: clamp(11px, 1.2vw, 13px);
+      color: var(--text-muted);
+      margin-bottom: 32px;
+    }
+
+    .questionnaire-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .field-label {
+      font-size: 10px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 6px;
+    }
+
+    .field-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .field-input:focus {
+      outline: none;
+      border-color: rgba(204,255,51,0.4);
+    }
+
+    .questionnaire-submit {
+      width: 100%;
+      padding: 16px;
+      margin-top: 8px;
+      background: var(--brand);
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .questionnaire-skip {
+      margin-top: 16px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .thank-you-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto 24px;
+      border-radius: 50%;
+      background: var(--brand);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      color: #000;
+    }
+
+    .thank-you-title {
+      font-size: clamp(16px, 1.8vw, 20px);
+      margin-bottom: 12px;
+    }
+
+    .thank-you-message {
+      font-size: clamp(12px, 1.3vw, 14px);
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    /* ========================================
+       Mobile Adjustments
+    ======================================== */
+    @media (max-width: 768px) {
+      .teaser-content {
+        padding: 8vh 5vw 25vh;
+      }
+
+      .logo svg {
+        height: 40px;
+      }
+
+      .badge {
+        padding: 10px 24px;
+        font-size: 12px;
+        letter-spacing: 0.15em;
+      }
+
+      .counter {
+        gap: 12px;
+        margin-bottom: 5vh;
+      }
+
+      .counter-prefix,
+      .counter-suffix {
+        font-size: 14px;
+        letter-spacing: 0.2em;
+      }
+
+      .counter-number {
+        font-size: 64px;
+      }
+
+      .form-wrapper {
+        max-width: 92%;
+        padding: 0 4%;
+      }
+
+      .email-form {
+        border-radius: 6px;
+        padding: 4px;
+      }
+
+      .email-input {
+        padding: 14px 14px;
+        font-size: 14px;
+      }
+
+      .email-submit {
+        padding: 14px 18px;
+        font-size: 13px;
+        border-radius: 4px;
+      }
+
+      .form-note {
+        font-size: 12px;
+      }
+
+      .scroll-indicator {
+        bottom: 5vh;
+      }
+
+      .scroll-text {
+        font-size: 16px;
+      }
+
+      .scroll-hint {
+        font-size: 11px;
+      }
+
+      .arc-container {
+        width: 1400px;
+        height: 1400px;
+        margin-bottom: calc(-1400px + 28vh);
+      }
+
+      /* LP Section Mobile */
+      .section-lp {
+        padding: 8vh 0 12vh;
+      }
+
+      .lp-content {
+        padding: 0 6vw;
+      }
+
+      .lp-left {
+        margin-bottom: 24px;
+      }
+
+      .lp-headline {
+        font-size: 18px;
+        margin-bottom: 8px;
+      }
+
+      .lp-subhead {
+        font-size: 28px;
+        margin-bottom: 20px;
+      }
+
+      .lp-form {
+        max-width: 90vw;
+      }
+
+      .app-mockups {
+        max-width: 80vw;
+      }
+
+      .footer {
+        padding: 16px;
+      }
+
+      .footer-links {
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .footer-link {
+        font-size: 10px;
+      }
+
+      .copyright {
+        font-size: 9px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .teaser-content {
+        padding: 6vh 4vw 30vh;
+      }
+
+      .logo svg {
+        height: 36px;
+      }
+
+      .badge {
+        padding: 8px 20px;
+        font-size: 11px;
+      }
+
+      .counter-number {
+        font-size: 48px;
+      }
+
+      .counter-prefix,
+      .counter-suffix {
+        font-size: 11px;
+      }
+
+      .email-input {
+        padding: 12px 12px;
+        font-size: 13px;
+      }
+
+      .email-submit {
+        padding: 12px 14px;
+        font-size: 12px;
+      }
+
+      .arc-container {
+        width: 1200px;
+        height: 1200px;
+        margin-bottom: calc(-1200px + 25vh);
+      }
+
+      .lp-headline {
+        font-size: 15px;
+      }
+
+      .lp-subhead {
+        font-size: 22px;
+      }
+
+      .app-mockups {
+        max-width: 90vw;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======== Section 1: Teaser ======== -->
+  <section class="section-teaser">
+    <div class="teaser-content">
+      <div class="logo">
+        <svg viewBox="80 40 420 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M173.527 125.333C192.315 125.333 207.547 110.189 207.547 91.5104C207.547 73.3694 193.179 58.5601 175.137 57.7271C178.29 57.0122 181.575 56.6318 184.946 56.6318C209.11 56.6318 228.703 76.1109 228.703 100.135C228.703 124.159 209.11 143.638 184.946 143.638C161.461 143.638 142.297 125.248 141.235 102.155C145.721 115.613 158.486 125.327 173.527 125.327V125.333Z" fill="#FFF442"/>
+          <path d="M184.966 154.493C154.772 154.493 130.298 130.16 130.298 100.141C130.298 70.1228 153.387 47.1874 182.38 45.8429C177.314 44.6886 172.036 44.0786 166.62 44.0786C127.778 44.0786 96.291 75.3828 96.291 114C96.291 152.617 127.778 183.914 166.614 183.914C205.449 183.914 235.148 154.355 236.863 117.253C229.653 138.883 209.143 154.493 184.959 154.493H184.966Z" fill="#CCFF33"/>
+          <path d="M276.135 69.2114H316.95C328.303 69.2114 337.103 72.5301 342.968 78.6296C347.942 83.8043 350.62 91.104 350.62 99.8597V100.122C350.62 115.115 342.842 124.533 331.489 128.914L353.298 162.088H330.341L311.21 132.364H295.78V162.088H276.141V69.2114H276.135ZM315.67 114.321C325.235 114.321 330.717 109.016 330.717 101.185V100.922C330.717 92.1665 324.853 87.6542 315.287 87.6542H295.774V114.321H315.67Z" fill="white"/>
+          <path d="M358.503 129.603V129.373C358.503 111.567 370.701 96.9019 388.156 96.9019C408.184 96.9019 417.36 113.082 417.36 130.77C417.36 132.167 417.248 133.794 417.136 135.427H375.397C377.073 143.455 382.45 147.646 390.056 147.646C395.762 147.646 399.905 145.783 404.602 141.245L414.339 150.204C408.745 157.418 400.69 161.845 389.831 161.845C371.815 161.845 358.503 148.695 358.503 129.603ZM400.802 124.363C399.793 116.446 395.32 111.095 388.156 111.095C380.992 111.095 376.519 116.335 375.173 124.363H400.795H400.802Z" fill="white"/>
+          <path d="M430 98.0624H447.007V107.021C451.15 101.204 456.856 96.895 465.696 96.895C479.681 96.895 493 108.3 493 129.137V129.367C493 150.203 479.905 161.609 465.696 161.609C456.632 161.609 451.037 157.3 447.007 152.295V179.068H430V98.0624ZM475.987 129.367V129.137C475.987 118.781 469.271 111.914 461.328 111.914C453.386 111.914 446.782 118.781 446.782 129.137V129.367C446.782 139.723 453.386 146.589 461.328 146.589C469.271 146.589 475.987 139.841 475.987 129.367Z" fill="white"/>
+        </svg>
+      </div>
+
+      <div class="badge">無料招待枠</div>
+
+      <div class="counter">
+        <span class="counter-prefix">あ と</span>
+        <span class="counter-number" id="remainingCount">1000</span>
+        <span class="counter-suffix">名 様</span>
+      </div>
+
+      <div class="form-wrapper" id="emailStep">
+        <div class="email-form">
+          <input type="email" class="email-input" id="emailInput" placeholder="Mail address" autocomplete="email">
+          <button type="button" class="email-submit" id="emailSubmit">事前登録</button>
+        </div>
+        <p class="form-note">登録した方から<span class="highlight">優先的</span>にご案内します</p>
+        <p class="form-error" id="formError">有効なメールアドレスを入力してください</p>
+      </div>
+
+      <div class="questionnaire" id="questionnaireStep">
+        <h2 class="questionnaire-title">あと少しで完了です</h2>
+        <p class="questionnaire-desc">より良いサービス提供のため、いくつか質問にお答えください。</p>
+        <form class="questionnaire-form" id="questionnaireForm">
+          <div><label class="field-label">氏名</label><input type="text" class="field-input" id="nameInput" placeholder="山田 太郎"></div>
+          <div><label class="field-label">会社名</label><input type="text" class="field-input" id="companyInput" placeholder="株式会社〇〇"></div>
+          <div><label class="field-label">役職</label><input type="text" class="field-input" id="positionInput" placeholder="代表取締役"></div>
+          <button type="submit" class="questionnaire-submit">登録を完了する</button>
+        </form>
+        <button type="button" class="questionnaire-skip" id="skipBtn">スキップして完了</button>
+      </div>
+
+      <div class="thank-you" id="thankYouStep">
+        <div class="thank-you-icon">✓</div>
+        <h3 class="thank-you-title">登録ありがとうございます</h3>
+        <p class="thank-you-message">ローンチ時に優先的にご案内いたします。<br>今しばらくお待ちください。</p>
+      </div>
+    </div>
+
+    <div class="scroll-indicator" onclick="document.querySelector('.section-lp').scrollIntoView({behavior:'smooth'})">
+      <p class="scroll-text">What's Rep ?</p>
+      <p class="scroll-hint">swipe</p>
+    </div>
+
+    <div class="arc-container"></div>
+  </section>
+
+  <!-- ======== Section 2: LP ======== -->
+  <section class="section-lp">
+    <div class="lp-content">
+      <div class="lp-left">
+        <h1 class="lp-headline reveal">本音を<span class="quote">"安心"</span>して語り合える</h1>
+        <p class="lp-subhead reveal reveal-delay-1">経営者限定SNS</p>
+
+        <div class="lp-form reveal reveal-delay-2">
+          <div class="email-form">
+            <input type="email" class="email-input" placeholder="Mail address">
+            <button type="button" class="email-submit">事前登録</button>
+          </div>
+          <p class="form-note">※ 登録した方から<span class="highlight">優先的</span>にご案内します</p>
+        </div>
+      </div>
+
+      <div class="lp-right reveal reveal-delay-3">
+        <div class="app-mockups">
+          <img src="app-mockups.png" alt="Rep アプリ画面">
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-links">
+        <a href="#" class="footer-link">プライバシーポリシー</a>
+        <a href="#" class="footer-link">利用規約</a>
+        <a href="#" class="footer-link">お問い合わせ</a>
+      </div>
+      <p class="copyright">© 2025 Garo Inc.</p>
+    </footer>
+  </section>
+
+  <script>
+    // Remaining count
+    document.getElementById('remainingCount').textContent = '1000';
+
+    // Form logic
+    const emailStep = document.getElementById('emailStep');
+    const questionnaireStep = document.getElementById('questionnaireStep');
+    const thankYouStep = document.getElementById('thankYouStep');
+    const emailInput = document.getElementById('emailInput');
+    const emailSubmit = document.getElementById('emailSubmit');
+    const formError = document.getElementById('formError');
+    const questionnaireForm = document.getElementById('questionnaireForm');
+    const skipBtn = document.getElementById('skipBtn');
+
+    let userEmail = '';
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    emailSubmit.addEventListener('click', () => {
+      const email = emailInput.value.trim();
+      if (!email || !isValidEmail(email)) {
+        formError.classList.add('visible');
+        return;
+      }
+      formError.classList.remove('visible');
+      userEmail = email;
+      emailStep.style.display = 'none';
+      questionnaireStep.classList.add('visible');
+    });
+
+    emailInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); emailSubmit.click(); }
+    });
+
+    emailInput.addEventListener('input', () => {
+      formError.classList.remove('visible');
+    });
+
+    questionnaireForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      questionnaireStep.classList.remove('visible');
+      questionnaireStep.style.display = 'none';
+      thankYouStep.classList.add('visible');
+    });
+
+    skipBtn.addEventListener('click', () => {
+      questionnaireStep.classList.remove('visible');
+      questionnaireStep.style.display = 'none';
+      thankYouStep.classList.add('visible');
+    });
+
+    // Scroll-triggered reveal
+    const revealElements = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealElements.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
