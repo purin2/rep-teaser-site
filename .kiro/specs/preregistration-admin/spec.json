@@ -1,0 +1,28 @@
+{
+  "name": "preregistration-admin",
+  "description": "事前登録ユーザー情報を保管するDBと、管理者が残り人数を操作できるAdmin機能",
+  "language": "ja",
+  "createdAt": "2026-01-28T12:00:00Z",
+  "updatedAt": "2026-01-28T13:30:00Z",
+  "status": "implementation-in-progress",
+  "phases": {
+    "requirements": "approved",
+    "design": "approved",
+    "tasks": "approved",
+    "implementation": "in-progress"
+  },
+  "approvals": {
+    "requirements": {
+      "generated": true,
+      "approved": true
+    },
+    "design": {
+      "generated": true,
+      "approved": true
+    },
+    "tasks": {
+      "generated": true,
+      "approved": true
+    }
+  }
+}

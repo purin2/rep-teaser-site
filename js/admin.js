@@ -29,18 +29,23 @@ async function checkAuth() {
 async function login(email, password) {
   const client = window.getSupabaseClient();
   if (!client) {
-    return { success: false, error: 'Client not initialized' };
+    return { success: false, error: 'Supabaseクライアント未初期化' };
   }
 
-  const { error } = await client.auth.signInWithPassword({ email, password });
+  try {
+    const { data, error } = await client.auth.signInWithPassword({ email, password });
 
-  if (error) {
-    console.error('[Admin] Login failed:', error);
-    return { success: false, error: error.message };
+    if (error) {
+      console.error('[Admin] Login failed:', error);
+      return { success: false, error: error.message };
+    }
+
+    console.log('[Admin] Login successful', data);
+    return { success: true };
+  } catch (err) {
+    console.error('[Admin] Login exception:', err);
+    return { success: false, error: err.message || '接続エラー' };
   }
-
-  console.log('[Admin] Login successful');
-  return { success: true };
 }
 
 /**

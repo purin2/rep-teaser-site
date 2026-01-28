@@ -683,16 +683,23 @@
       loginButton.disabled = true;
       loginButton.textContent = 'ログイン中...';
 
-      const result = await window.adminAPI.login(loginEmail.value, loginPassword.value);
+      try {
+        const result = await window.adminAPI.login(loginEmail.value, loginPassword.value);
 
-      if (!result.success) {
-        loginError.textContent = result.error || 'ログインに失敗しました';
+        if (!result.success) {
+          loginError.textContent = result.error || 'ログインに失敗しました';
+          loginButton.disabled = false;
+          loginButton.textContent = 'ログイン';
+          return;
+        }
+
+        showDashboard();
+      } catch (err) {
+        console.error('Login error:', err);
+        loginError.textContent = 'ログインエラー: ' + (err.message || '接続に失敗しました');
         loginButton.disabled = false;
         loginButton.textContent = 'ログイン';
-        return;
       }
-
-      showDashboard();
     });
 
     logoutButton.addEventListener('click', () => {
