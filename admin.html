@@ -537,8 +537,121 @@
 
   <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="js/supabase-client.js"></script>
-  <script src="js/admin.js"></script>
+  <script>
+    // Supabase Client (inline)
+    const SUPABASE_URL = 'https://vpxtqlgzsokqexnbjioe.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZweHRxbGd6c29rcWV4bmJqaW9lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk1ODU3MTUsImV4cCI6MjA4NTE2MTcxNX0.IbRZlyieSr5Kgfn6MQdC8PS2aCWjUPzOOIOcEPGn0CU';
+
+    let supabaseClient = null;
+    window.getSupabaseClient = function() {
+      if (!supabaseClient && window.supabase && window.supabase.createClient) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      }
+      return supabaseClient;
+    };
+
+    // Admin API (inline)
+    window.adminAPI = {
+      checkAuth: async function() {
+        const client = window.getSupabaseClient();
+        if (!client) return false;
+        const { data: { session } } = await client.auth.getSession();
+        return session !== null;
+      },
+
+      login: async function(email, password) {
+        const client = window.getSupabaseClient();
+        if (!client) return { success: false, error: 'クライアント未初期化' };
+        try {
+          const { error } = await client.auth.signInWithPassword({ email, password });
+          if (error) return { success: false, error: error.message };
+          return { success: true };
+        } catch (err) {
+          return { success: false, error: err.message };
+        }
+      },
+
+      logout: async function() {
+        const client = window.getSupabaseClient();
+        if (client) await client.auth.signOut();
+        window.location.reload();
+      },
+
+      getDashboardStats: async function() {
+        const client = window.getSupabaseClient();
+        const today = new Date().toISOString().split('T')[0];
+        const [countRes, totalRes, todayRes] = await Promise.all([
+          client.from('settings').select('value').eq('key', 'remaining_count').single(),
+          client.from('registrations').select('id', { count: 'exact', head: true }),
+          client.from('registrations').select('id', { count: 'exact', head: true }).gte('created_at', today)
+        ]);
+        return {
+          remaining_count: Number(countRes.data?.value ?? 0),
+          total: totalRes.count ?? 0,
+          today: todayRes.count ?? 0
+        };
+      },
+
+      updateRemainingCount: async function(newCount) {
+        const client = window.getSupabaseClient();
+        const { data: { user } } = await client.auth.getUser();
+        const { data: current } = await client.from('settings').select('value').eq('key', 'remaining_count').single();
+        await client.from('settings').update({
+          value: newCount.toString(),
+          updated_at: new Date().toISOString(),
+          updated_by: user?.id
+        }).eq('key', 'remaining_count');
+        await client.from('audit_logs').insert({
+          action: 'UPDATE',
+          table_name: 'settings',
+          record_id: 'remaining_count',
+          old_value: { count: current?.value },
+          new_value: { count: newCount },
+          performed_by: user?.id
+        });
+      },
+
+      getRegistrations: async function(page = 1, limit = 20, query = '') {
+        const client = window.getSupabaseClient();
+        const offset = (page - 1) * limit;
+        let q = client.from('registrations').select('*', { count: 'exact' })
+          .order('created_at', { ascending: false }).range(offset, offset + limit - 1);
+        if (query) q = q.or(`email.ilike.%${query}%,name.ilike.%${query}%,company.ilike.%${query}%`);
+        const { data, count, error } = await q;
+        return { data: data ?? [], count: count ?? 0 };
+      },
+
+      exportCSV: async function() {
+        const client = window.getSupabaseClient();
+        const { data } = await client.from('registrations').select('*').order('created_at', { ascending: false });
+        const headers = ['ID', 'Email', '氏名', '会社名', '役職', '登録日時'];
+        const rows = data?.map(r => [
+          r.id, `"${(r.email || '').replace(/"/g, '""')}"`, `"${(r.name || '').replace(/"/g, '""')}"`,
+          `"${(r.company || '').replace(/"/g, '""')}"`, `"${(r.position || '').replace(/"/g, '""')}"`, r.created_at
+        ]) ?? [];
+        const csv = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+        const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `registrations_${new Date().toISOString().split('T')[0]}.csv`;
+        a.click();
+      },
+
+      deleteRegistration: async function(id) {
+        const client = window.getSupabaseClient();
+        await client.from('registrations').delete().eq('id', id);
+      },
+
+      currentPage: 1,
+      pageSize: 20,
+      searchQuery: '',
+      getCurrentPage: function() { return this.currentPage; },
+      setCurrentPage: function(p) { this.currentPage = p; },
+      getPageSize: function() { return this.pageSize; },
+      getSearchQuery: function() { return this.searchQuery; },
+      setSearchQuery: function(q) { this.searchQuery = q; }
+    };
+  </script>
   <script>
     // DOM Elements
     const loginScreen = document.getElementById('loginScreen');
