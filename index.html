@@ -15,7 +15,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@200;300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;500&family=Noto+Sans+JP:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@200;300;400;500&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -38,10 +38,62 @@
 
     body {
       font-family: 'Noto Sans JP', sans-serif;
+      font-weight: 500;
       background: var(--bg);
       color: var(--text);
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
+    }
+
+    /* Starfield Background */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 50% 20%, rgba(255,255,255,0.7) 0%, transparent 100%),
+        radial-gradient(1px 1px at 60% 50%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1px 1px at 70% 80%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 80% 10%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 10% 60%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 30% 90%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 90% 40%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 15% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(2px 2px at 25% 15%, rgba(255,255,255,0.8) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 75% 65%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 85% 25%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 5% 45%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 95% 75%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 35% 55%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(2px 2px at 55% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 65% 95%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 45% 5%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 12% 22%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 88% 58%, rgba(255,255,255,0.5) 0%, transparent 100%),
+        radial-gradient(1px 1px at 42% 82%, rgba(255,255,255,0.3) 0%, transparent 100%),
+        radial-gradient(1.5px 1.5px at 68% 12%, rgba(255,255,255,0.6) 0%, transparent 100%),
+        radial-gradient(1px 1px at 22% 48%, rgba(255,255,255,0.4) 0%, transparent 100%),
+        radial-gradient(1px 1px at 78% 88%, rgba(255,255,255,0.5) 0%, transparent 100%);
+    }
+
+    /* Ambient glow effect */
+    .section-teaser::before {
+      content: '';
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80vw;
+      height: 40vh;
+      background: radial-gradient(ellipse at center, rgba(204, 255, 51, 0.05) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
     }
 
     /* ========================================
@@ -83,15 +135,16 @@
     /* Badge */
     .badge {
       display: inline-block;
-      padding: clamp(8px, 1.2vw, 14px) clamp(20px, 3vw, 44px);
-      border: 1px solid rgba(204, 255, 51, 0.4);
-      font-size: clamp(11px, 1.4vw, 16px);
-      font-weight: 400;
+      padding: clamp(14px, 1.8vw, 22px) clamp(36px, 5vw, 72px);
+      border: 1.5px solid rgba(204, 255, 51, 0.5);
+      font-size: clamp(15px, 1.8vw, 22px);
+      font-weight: 700;
       color: var(--brand);
-      letter-spacing: 0.25em;
+      letter-spacing: 0.35em;
       margin-bottom: 5vh;
       opacity: 0;
       animation: fadeUp 0.8s ease-out 0.35s forwards;
+      text-shadow: 0 0 20px rgba(204, 255, 51, 0.4);
     }
 
     /* Counter */
@@ -112,31 +165,134 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      width: clamp(280px, 50vw, 600px);
-      height: clamp(120px, 20vw, 240px);
-      background: radial-gradient(ellipse at center, rgba(204, 255, 51, 0.1) 0%, transparent 70%);
+      width: clamp(300px, 60vw, 700px);
+      height: clamp(150px, 25vw, 300px);
+      background: radial-gradient(ellipse at center, rgba(204, 255, 51, 0.12) 0%, transparent 70%);
       pointer-events: none;
       z-index: -1;
+      filter: blur(20px);
     }
 
     .counter-prefix,
     .counter-suffix {
       font-family: 'Noto Sans JP', sans-serif;
-      font-size: clamp(14px, 2vw, 26px);
-      font-weight: 400;
-      color: rgba(255, 255, 255, 0.55);
-      letter-spacing: 0.35em;
+      font-size: clamp(18px, 2.5vw, 32px);
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: 0.5em;
+      text-shadow: 0 0 20px rgba(204, 255, 51, 0.2);
+    }
+
+    .counter-number-wrapper {
+      position: relative;
+      display: inline-block;
     }
 
     .counter-number {
-      font-family: 'Shippori Mincho', 'Noto Serif JP', serif;
-      font-size: clamp(56px, 12vw, 160px);
-      font-weight: 400;
-      color: var(--brand);
-      letter-spacing: 0.08em;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(80px, 18vw, 220px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
       line-height: 1;
       -webkit-font-smoothing: antialiased;
-      transform: scaleX(0.85);
+      position: relative;
+      display: inline-block;
+      /* Transparent inside */
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      /* Glass outline - gradient */
+      -webkit-text-stroke: 2.5px rgba(204, 255, 51, 0.45);
+      filter: drop-shadow(0 0 20px rgba(204, 255, 51, 0.25));
+    }
+
+    /* Bright top edge highlight */
+    .counter-number::before {
+      content: attr(data-number);
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 2.5px transparent;
+      background: linear-gradient(
+        175deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(240, 255, 200, 0.7) 5%,
+        rgba(204, 255, 51, 0.4) 15%,
+        transparent 30%,
+        transparent 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      z-index: 2;
+    }
+
+    /* Bottom edge and inner reflection */
+    .counter-number::after {
+      content: attr(data-number);
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 2.5px transparent;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        transparent 60%,
+        rgba(120, 160, 40, 0.35) 75%,
+        rgba(160, 200, 50, 0.5) 90%,
+        rgba(180, 220, 60, 0.6) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      z-index: 1;
+    }
+
+    /* Deep shadow - far back */
+    .counter-number-wrapper::before {
+      content: attr(data-number);
+      position: absolute;
+      top: 6px;
+      left: 5px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(80px, 18vw, 220px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 2px rgba(80, 100, 20, 0.2);
+      z-index: -2;
+      filter: blur(6px);
+    }
+
+    /* Mid shadow */
+    .counter-number-wrapper::after {
+      content: attr(data-number);
+      position: absolute;
+      top: 3px;
+      left: 2px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(80px, 18vw, 220px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 1.5px rgba(204, 255, 51, 0.12);
+      z-index: -1;
+      filter: blur(3px);
     }
 
     /* Email Form */
@@ -150,14 +306,24 @@
     .email-form {
       display: flex;
       align-items: center;
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(204, 255, 51, 0.3);
+      border-radius: 980px;
       padding: 6px;
+      box-shadow:
+        0 0 15px rgba(204, 255, 51, 0.15),
+        0 0 30px rgba(204, 255, 51, 0.08),
+        inset 0 0 10px rgba(204, 255, 51, 0.05);
+      transition: all 0.3s ease;
     }
 
     .email-form:focus-within {
-      border-color: rgba(204, 255, 51, 0.4);
+      border-color: rgba(204, 255, 51, 0.5);
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow:
+        0 0 20px rgba(204, 255, 51, 0.25),
+        0 0 40px rgba(204, 255, 51, 0.15),
+        inset 0 0 15px rgba(204, 255, 51, 0.08);
     }
 
     .email-input {
@@ -168,49 +334,57 @@
       padding: 16px 20px;
       color: var(--text);
       font-size: 15px;
-      font-weight: 400;
+      font-weight: 500;
       font-family: inherit;
       outline: none;
+      letter-spacing: 0.02em;
     }
 
     .email-input::placeholder {
-      color: rgba(255, 255, 255, 0.45);
+      color: rgba(255, 255, 255, 0.4);
+      font-weight: 400;
     }
 
     .email-submit {
-      padding: 16px 28px;
+      padding: 16px 36px;
       background: var(--brand);
       border: none;
-      border-radius: 6px;
+      border-radius: 980px;
       color: #000;
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 16px;
+      font-weight: 700;
       font-family: inherit;
       cursor: pointer;
       white-space: nowrap;
-      transition: transform 0.2s, box-shadow 0.2s;
+      letter-spacing: 0.03em;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(204, 255, 51, 0.3);
     }
 
     .email-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(204, 255, 51, 0.25);
+      background: #d9ff4d;
+      transform: scale(1.02);
+      box-shadow: 0 0 30px rgba(204, 255, 51, 0.5);
     }
 
     .form-note {
       margin-top: clamp(16px, 2vw, 24px);
-      font-size: clamp(11px, 1.2vw, 14px);
-      font-weight: 400;
-      color: var(--text-muted);
+      font-size: clamp(13px, 1.3vw, 16px);
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: 0.03em;
     }
 
     .form-note .highlight {
       color: var(--brand);
-      font-weight: 500;
+      font-weight: 700;
     }
 
     .form-error {
       margin-top: 12px;
-      font-size: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
       color: #ff6b6b;
       opacity: 0;
       transition: opacity 0.3s;
@@ -238,18 +412,19 @@
     }
 
     .scroll-text {
-      font-size: clamp(14px, 1.4vw, 18px);
-      font-weight: 400;
-      color: var(--text);
-      letter-spacing: 0.1em;
+      font-size: clamp(14px, 1.4vw, 17px);
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.9);
+      letter-spacing: 0.05em;
       margin-bottom: 12px;
     }
 
     .scroll-hint {
       font-size: clamp(10px, 1vw, 12px);
-      color: var(--brand);
-      letter-spacing: 0.2em;
-      text-transform: lowercase;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
       animation: bounce 2s ease-in-out infinite;
     }
 
@@ -258,27 +433,243 @@
       50% { transform: translateY(6px); }
     }
 
-    /* Arc - Large circle showing only top edge */
-    .arc-container {
+    /* Arc wrapper for positioning */
+    .arc-wrapper {
       position: absolute;
       bottom: 0;
       left: 50%;
       transform: translateX(-50%);
-      width: max(1800px, 150vw);
-      height: max(1800px, 150vw);
-      border-radius: 50%;
-      border: 2px solid var(--brand);
-      background: transparent;
+      /* Responsive arc size based on viewport */
+      --arc-size: max(1600px, 130vw);
+      width: var(--arc-size);
+      height: var(--arc-size);
+      margin-bottom: calc(-1 * var(--arc-size) + 22vh);
       pointer-events: none;
-      opacity: 0;
-      animation: arcReveal 1.2s ease-out 0.8s forwards;
       z-index: 1;
-      margin-bottom: calc(-1 * max(1800px, 150vw) + 30vh);
+      overflow: visible;
+    }
+
+    /* Base arc - dim, always visible */
+    .arc-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 2px solid rgba(204, 255, 51, 0.2);
+      background: transparent;
+    }
+
+    /* Bright core line */
+    .arc-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 3px solid var(--brand);
+      background: transparent;
+      -webkit-mask-image: conic-gradient(from -90deg at 50% 50%,
+        transparent 0deg,
+        transparent calc(125deg + var(--glow-angle, -55deg)),
+        black calc(145deg + var(--glow-angle, -55deg)),
+        black calc(180deg + var(--glow-angle, -55deg)),
+        transparent calc(200deg + var(--glow-angle, -55deg)),
+        transparent 360deg
+      );
+      mask-image: conic-gradient(from -90deg at 50% 50%,
+        transparent 0deg,
+        transparent calc(125deg + var(--glow-angle, -55deg)),
+        black calc(145deg + var(--glow-angle, -55deg)),
+        black calc(180deg + var(--glow-angle, -55deg)),
+        transparent calc(200deg + var(--glow-angle, -55deg)),
+        transparent 360deg
+      );
+    }
+
+    /* Glow layer 1 - soft blur */
+    .arc-glow-trail {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 6px solid var(--brand);
+      background: transparent;
+      filter: blur(8px);
+      opacity: 0.9;
+      -webkit-mask-image: conic-gradient(from -90deg at 50% 50%,
+        transparent 0deg,
+        transparent calc(120deg + var(--glow-angle, -55deg)),
+        black calc(150deg + var(--glow-angle, -55deg)),
+        black calc(180deg + var(--glow-angle, -55deg)),
+        transparent calc(210deg + var(--glow-angle, -55deg)),
+        transparent 360deg
+      );
+      mask-image: conic-gradient(from -90deg at 50% 50%,
+        transparent 0deg,
+        transparent calc(120deg + var(--glow-angle, -55deg)),
+        black calc(150deg + var(--glow-angle, -55deg)),
+        black calc(180deg + var(--glow-angle, -55deg)),
+        transparent calc(210deg + var(--glow-angle, -55deg)),
+        transparent 360deg
+      );
+    }
+
+    /* Glow layer 2 - medium blur */
+    .arc-glow-outer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 12px solid var(--brand);
+      background: transparent;
+      filter: blur(25px);
+      opacity: 0.7;
+      -webkit-mask-image: conic-gradient(from -90deg at 50% 50%,
+        transparent 0deg,
+        transparent calc(115deg + var(--glow-angle, -55deg)),
+        black calc(155deg + var(--glow-angle, -55deg)),
+        black calc(180deg + var(--glow-angle, -55deg)),
+        transparent calc(215deg + var(--glow-angle, -55deg)),
+        transparent 360deg
+      );
+      mask-image: conic-gradient(from -90deg at 50% 50%,
+        transparent 0deg,
+        transparent calc(115deg + var(--glow-angle, -55deg)),
+        black calc(155deg + var(--glow-angle, -55deg)),
+        black calc(180deg + var(--glow-angle, -55deg)),
+        transparent calc(215deg + var(--glow-angle, -55deg)),
+        transparent 360deg
+      );
+    }
+
+    /* Glow layer 3 - wide diffuse */
+    .arc-glow-wide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 30px solid rgba(204, 255, 51, 0.5);
+      background: transparent;
+      filter: blur(60px);
+      opacity: 0.8;
+      -webkit-mask-image: conic-gradient(from -90deg at 50% 50%,
+        transparent 0deg,
+        transparent calc(110deg + var(--glow-angle, -55deg)),
+        black calc(160deg + var(--glow-angle, -55deg)),
+        black calc(180deg + var(--glow-angle, -55deg)),
+        transparent calc(220deg + var(--glow-angle, -55deg)),
+        transparent 360deg
+      );
+      mask-image: conic-gradient(from -90deg at 50% 50%,
+        transparent 0deg,
+        transparent calc(110deg + var(--glow-angle, -55deg)),
+        black calc(160deg + var(--glow-angle, -55deg)),
+        black calc(180deg + var(--glow-angle, -55deg)),
+        transparent calc(220deg + var(--glow-angle, -55deg)),
+        transparent 360deg
+      );
+    }
+
+    /* Glow layer 4 - atmospheric haze */
+    .arc-glow-haze {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      border: 50px solid rgba(204, 255, 51, 0.35);
+      background: transparent;
+      filter: blur(100px);
+      opacity: 0.7;
+      -webkit-mask-image: conic-gradient(from -90deg at 50% 50%,
+        transparent 0deg,
+        transparent calc(100deg + var(--glow-angle, -55deg)),
+        black calc(165deg + var(--glow-angle, -55deg)),
+        black calc(180deg + var(--glow-angle, -55deg)),
+        transparent calc(225deg + var(--glow-angle, -55deg)),
+        transparent 360deg
+      );
+      mask-image: conic-gradient(from -90deg at 50% 50%,
+        transparent 0deg,
+        transparent calc(100deg + var(--glow-angle, -55deg)),
+        black calc(165deg + var(--glow-angle, -55deg)),
+        black calc(180deg + var(--glow-angle, -55deg)),
+        transparent calc(225deg + var(--glow-angle, -55deg)),
+        transparent 360deg
+      );
+    }
+
+    /* Star flare on arc */
+    .arc-star {
+      position: fixed;
+      width: 100px;
+      height: 100px;
+      pointer-events: none;
+      z-index: 100;
+      /* Will be positioned by JavaScript */
+      transform: translate(-50%, -50%);
+    }
+
+    /* Bright core - small white center */
+    .arc-star .core {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: #fff;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       box-shadow:
-        0 0 10px rgba(204, 255, 51, 0.6),
-        0 0 30px rgba(204, 255, 51, 0.4),
-        0 0 60px rgba(204, 255, 51, 0.2),
-        inset 0 0 10px rgba(204, 255, 51, 0.1);
+        0 0 4px 2px #fff,
+        0 0 12px 4px rgba(255, 255, 255, 0.8),
+        0 0 25px 8px rgba(204, 255, 51, 0.6),
+        0 0 50px 15px rgba(204, 255, 51, 0.3);
+    }
+
+    /* Main elongated glow along arc */
+    .arc-star .glow {
+      position: absolute;
+      width: 150px;
+      height: 30px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse 50% 50% at center,
+        rgba(255, 255, 255, 0.9) 0%,
+        rgba(230, 255, 150, 0.6) 20%,
+        rgba(204, 255, 51, 0.3) 50%,
+        transparent 100%
+      );
+      border-radius: 50%;
+      filter: blur(3px);
+    }
+
+    /* Wider soft outer glow */
+    .arc-star .ray1 {
+      position: absolute;
+      width: 200px;
+      height: 50px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse 50% 50% at center,
+        rgba(204, 255, 51, 0.3) 0%,
+        rgba(204, 255, 51, 0.1) 40%,
+        transparent 100%
+      );
+      border-radius: 50%;
+      filter: blur(10px);
     }
 
     /* ========================================
@@ -317,25 +708,27 @@
 
     .lp-headline {
       font-family: 'Noto Sans JP', sans-serif;
-      font-size: clamp(20px, 3vw, 36px);
-      font-weight: 500;
-      line-height: 1.4;
+      font-size: clamp(18px, 2.5vw, 32px);
+      font-weight: 600;
+      line-height: 1.5;
       margin-bottom: clamp(8px, 1.5vh, 16px);
-      letter-spacing: 0.05em;
-      color: var(--text);
+      letter-spacing: 0.02em;
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .lp-headline .quote {
       color: var(--brand);
+      font-weight: 700;
     }
 
     .lp-subhead {
       font-family: 'Noto Sans JP', sans-serif;
-      font-size: clamp(24px, 4vw, 48px);
+      font-size: clamp(32px, 6vw, 64px);
       font-weight: 700;
-      color: var(--brand);
-      margin-bottom: clamp(20px, 3vh, 36px);
-      letter-spacing: 0.05em;
+      color: #fff;
+      margin-bottom: clamp(24px, 3.5vh, 40px);
+      letter-spacing: -0.02em;
+      text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
     }
 
     .lp-form {
@@ -355,6 +748,21 @@
       width: 100%;
       max-width: clamp(280px, 45vw, 450px);
       background: transparent;
+      position: relative;
+    }
+
+    .app-mockups::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 120%;
+      height: 120%;
+      background: radial-gradient(ellipse at center, rgba(204, 255, 51, 0.15) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(30px);
     }
 
     .app-mockups img {
@@ -362,6 +770,7 @@
       height: auto;
       display: block;
       background: transparent;
+      filter: drop-shadow(0 0 30px rgba(204, 255, 51, 0.2)) drop-shadow(0 20px 40px rgba(0, 0, 0, 0.5));
     }
 
     /* ========================================
@@ -385,19 +794,23 @@
     }
 
     .footer-link {
-      font-size: clamp(10px, 1vw, 12px);
-      color: rgba(255, 255, 255, 0.35);
+      font-size: clamp(11px, 1vw, 13px);
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.5);
       text-decoration: none;
+      letter-spacing: 0.01em;
       transition: color 0.3s;
     }
 
     .footer-link:hover {
-      color: rgba(255, 255, 255, 0.6);
+      color: rgba(255, 255, 255, 0.9);
     }
 
     .copyright {
-      font-size: clamp(9px, 0.9vw, 11px);
-      color: rgba(255, 255, 255, 0.2);
+      font-size: clamp(10px, 0.9vw, 12px);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.4);
+      letter-spacing: 0.01em;
     }
 
     /* ========================================
@@ -417,11 +830,9 @@
     @keyframes arcReveal {
       from {
         opacity: 0;
-        transform: translateX(-50%) translateY(40px);
       }
       to {
         opacity: 1;
-        transform: translateX(-50%) translateY(0);
       }
     }
 
@@ -461,14 +872,17 @@
     }
 
     .questionnaire-title {
-      font-size: clamp(16px, 1.8vw, 20px);
-      font-weight: 400;
-      margin-bottom: 8px;
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 12px;
     }
 
     .questionnaire-desc {
-      font-size: clamp(11px, 1.2vw, 13px);
-      color: var(--text-muted);
+      font-size: clamp(12px, 1.3vw, 14px);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.6);
+      letter-spacing: 0.01em;
       margin-bottom: 32px;
     }
 
@@ -480,49 +894,68 @@
     }
 
     .field-label {
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      color: rgba(255,255,255,0.5);
-      margin-bottom: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 8px;
     }
 
     .field-input {
       width: 100%;
       padding: 14px 16px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 6px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
       color: var(--text);
-      font-size: 14px;
+      font-size: 15px;
+      font-weight: 500;
       font-family: inherit;
+      letter-spacing: 0.01em;
     }
 
     .field-input:focus {
       outline: none;
-      border-color: rgba(204,255,51,0.4);
+      border-color: rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.1);
     }
 
     .questionnaire-submit {
       width: 100%;
       padding: 16px;
-      margin-top: 8px;
+      margin-top: 12px;
       background: var(--brand);
       border: none;
-      border-radius: 6px;
+      border-radius: 12px;
       color: #000;
-      font-size: 14px;
-      font-weight: 600;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.01em;
       cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 20px rgba(204, 255, 51, 0.3);
+    }
+
+    .questionnaire-submit:hover {
+      background: #d9ff4d;
+      transform: scale(1.01);
+      box-shadow: 0 0 30px rgba(204, 255, 51, 0.5);
     }
 
     .questionnaire-skip {
-      margin-top: 16px;
-      font-size: 12px;
-      color: rgba(255,255,255,0.4);
+      margin-top: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(255,255,255,0.5);
       background: none;
       border: none;
       cursor: pointer;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+
+    .questionnaire-skip:hover {
+      color: rgba(255,255,255,0.8);
     }
 
     .thank-you-icon {
@@ -536,17 +969,22 @@
       justify-content: center;
       font-size: 24px;
       color: #000;
+      box-shadow: 0 0 30px rgba(204, 255, 51, 0.4);
     }
 
     .thank-you-title {
-      font-size: clamp(16px, 1.8vw, 20px);
+      font-size: clamp(20px, 2.2vw, 28px);
+      font-weight: 700;
+      letter-spacing: -0.01em;
       margin-bottom: 12px;
     }
 
     .thank-you-message {
-      font-size: clamp(12px, 1.3vw, 14px);
-      color: var(--text-muted);
+      font-size: clamp(14px, 1.4vw, 16px);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.7);
       line-height: 1.8;
+      letter-spacing: 0.01em;
     }
 
     /* ========================================
@@ -562,9 +1000,9 @@
       }
 
       .badge {
-        padding: 10px 24px;
-        font-size: 12px;
-        letter-spacing: 0.15em;
+        padding: 12px 28px;
+        font-size: 14px;
+        letter-spacing: 0.2em;
       }
 
       .counter {
@@ -574,12 +1012,13 @@
 
       .counter-prefix,
       .counter-suffix {
-        font-size: 14px;
-        letter-spacing: 0.2em;
+        font-size: 16px;
+        font-weight: 700;
+        letter-spacing: 0.3em;
       }
 
       .counter-number {
-        font-size: 64px;
+        font-size: 80px;
       }
 
       .form-wrapper {
@@ -593,13 +1032,14 @@
       }
 
       .email-input {
-        padding: 14px 14px;
+        padding: 12px 14px;
         font-size: 14px;
       }
 
       .email-submit {
-        padding: 14px 18px;
-        font-size: 13px;
+        padding: 12px 20px;
+        font-size: 14px;
+        font-weight: 700;
         border-radius: 4px;
       }
 
@@ -619,10 +1059,52 @@
         font-size: 11px;
       }
 
-      .arc-container {
-        width: 1400px;
-        height: 1400px;
-        margin-bottom: calc(-1400px + 28vh);
+      .arc-wrapper {
+        --arc-size: max(1200px, 180vw);
+        width: var(--arc-size);
+        height: var(--arc-size);
+        margin-bottom: calc(-1 * var(--arc-size) + 18vh);
+      }
+
+      .arc-star {
+        width: 70px;
+        height: 70px;
+      }
+
+      .arc-star .core {
+        width: 6px;
+        height: 6px;
+      }
+
+      .arc-star .glow {
+        width: 100px;
+        height: 22px;
+      }
+
+      .arc-star .ray1 {
+        width: 140px;
+        height: 35px;
+      }
+
+      /* Reduce glow intensity on mobile for performance */
+      .arc-glow-trail {
+        border-width: 4px;
+        filter: blur(6px);
+      }
+
+      .arc-glow-outer {
+        border-width: 8px;
+        filter: blur(15px);
+      }
+
+      .arc-glow-wide {
+        border-width: 15px;
+        filter: blur(30px);
+      }
+
+      .arc-glow-haze {
+        border-width: 25px;
+        filter: blur(50px);
       }
 
       /* LP Section Mobile */
@@ -684,33 +1166,78 @@
       }
 
       .badge {
-        padding: 8px 20px;
-        font-size: 11px;
+        padding: 10px 22px;
+        font-size: 13px;
+        letter-spacing: 0.15em;
       }
 
       .counter-number {
-        font-size: 48px;
+        font-size: 56px;
       }
 
       .counter-prefix,
       .counter-suffix {
-        font-size: 11px;
+        font-size: 14px;
+        font-weight: 700;
       }
 
       .email-input {
-        padding: 12px 12px;
+        padding: 10px 12px;
         font-size: 13px;
       }
 
       .email-submit {
-        padding: 12px 14px;
-        font-size: 12px;
+        padding: 10px 16px;
+        font-size: 13px;
+        font-weight: 700;
       }
 
-      .arc-container {
-        width: 1200px;
-        height: 1200px;
-        margin-bottom: calc(-1200px + 25vh);
+      .arc-wrapper {
+        --arc-size: max(1000px, 220vw);
+        width: var(--arc-size);
+        height: var(--arc-size);
+        margin-bottom: calc(-1 * var(--arc-size) + 16vh);
+      }
+
+      .arc-star {
+        width: 60px;
+        height: 60px;
+      }
+
+      .arc-star .core {
+        width: 5px;
+        height: 5px;
+      }
+
+      .arc-star .glow {
+        width: 80px;
+        height: 18px;
+      }
+
+      .arc-star .ray1 {
+        width: 110px;
+        height: 28px;
+      }
+
+      /* Further reduce glow on small screens */
+      .arc-glow-trail {
+        border-width: 3px;
+        filter: blur(4px);
+      }
+
+      .arc-glow-outer {
+        border-width: 6px;
+        filter: blur(10px);
+      }
+
+      .arc-glow-wide {
+        border-width: 10px;
+        filter: blur(20px);
+      }
+
+      .arc-glow-haze {
+        border-width: 15px;
+        filter: blur(30px);
       }
 
       .lp-headline {
@@ -728,6 +1255,7 @@
   </style>
 </head>
 <body>
+  <div class="particles"></div>
 
   <!-- ======== Section 1: Teaser ======== -->
   <section class="section-teaser">
@@ -746,7 +1274,9 @@
 
       <div class="counter">
         <span class="counter-prefix">あ と</span>
-        <span class="counter-number" id="remainingCount">1000</span>
+        <span class="counter-number-wrapper" data-number="1000">
+          <span class="counter-number" id="remainingCount" data-number="1000">1000</span>
+        </span>
         <span class="counter-suffix">名 様</span>
       </div>
 
@@ -783,7 +1313,21 @@
       <p class="scroll-hint">swipe</p>
     </div>
 
-    <div class="arc-container"></div>
+    <div class="arc-wrapper" id="arcWrapper">
+      <div class="arc-container"></div>
+      <div class="arc-glow-haze" id="arcGlowHaze"></div>
+      <div class="arc-glow-wide" id="arcGlowWide"></div>
+      <div class="arc-glow-outer" id="arcGlowOuter"></div>
+      <div class="arc-glow-trail" id="arcGlowTrail"></div>
+      <div class="arc-glow" id="arcGlow"></div>
+    </div>
+
+    <!-- Star flare on arc -->
+    <div class="arc-star" id="arcStar">
+      <span class="glow"></span>
+      <span class="ray1"></span>
+      <span class="core"></span>
+    </div>
   </section>
 
   <!-- ======== Section 2: LP ======== -->
@@ -820,8 +1364,112 @@
   </section>
 
   <script>
-    // Remaining count
-    document.getElementById('remainingCount').textContent = '1000';
+    // Remaining count and star position on arc
+    const countEl = document.getElementById('remainingCount');
+    const wrapperEl = document.querySelector('.counter-number-wrapper');
+    const arcWrapper = document.getElementById('arcWrapper');
+    const arcStar = document.getElementById('arcStar');
+    const arcGlow = document.getElementById('arcGlow');
+    const arcGlowTrail = document.getElementById('arcGlowTrail');
+    const arcGlowOuter = document.getElementById('arcGlowOuter');
+    const arcGlowWide = document.getElementById('arcGlowWide');
+    const arcGlowHaze = document.getElementById('arcGlowHaze');
+    const maxCount = 1000;
+    let currentCount = 1000;
+
+    function updateStarPosition(count) {
+      const progress = count / maxCount;
+
+      // Get arc's actual position from DOM
+      const arcRect = arcWrapper.getBoundingClientRect();
+      const centerX = arcRect.left + arcRect.width / 2;
+      const centerY = arcRect.top + arcRect.height / 2;
+      const radius = arcRect.width / 2;
+      const vw = window.innerWidth;
+
+      // Adjust edge positions based on screen size
+      // Smaller screens have proportionally wider arcs, so edges are closer to viewport edge
+      let rightEdgePercent, leftEdgePercent;
+      if (vw <= 480) {
+        rightEdgePercent = 0.95;
+        leftEdgePercent = 0.05;
+      } else if (vw <= 768) {
+        rightEdgePercent = 0.92;
+        leftEdgePercent = 0.08;
+      } else {
+        rightEdgePercent = 0.88;
+        leftEdgePercent = 0.12;
+      }
+
+      // Star X position: from right edge (progress=1) to left edge (progress=0)
+      const rightEdgeX = vw * rightEdgePercent;
+      const leftEdgeX = vw * leftEdgePercent;
+      const starX = rightEdgeX - (1 - progress) * (rightEdgeX - leftEdgeX);
+
+      // Calculate Y position on the arc circle at this X
+      // Circle formula: (x - cx)² + (y - cy)² = r²
+      // Solve for y: y = cy - sqrt(r² - (x - cx)²)
+      const dx = starX - centerX;
+      const dy = Math.sqrt(Math.max(0, radius * radius - dx * dx));
+      const starY = centerY - dy;  // minus because we want top of circle
+
+      // Position star
+      arcStar.style.left = starX + 'px';
+      arcStar.style.top = starY + 'px';
+
+      // Hide star if scrolled past first section
+      const sectionRect = document.querySelector('.section-teaser').getBoundingClientRect();
+      arcStar.style.opacity = sectionRect.bottom > 100 ? '1' : '0';
+
+      // Glow mask angle
+      const glowAngle = -55 + (1 - progress) * -70;
+      const angle = glowAngle + 'deg';
+      arcGlow.style.setProperty('--glow-angle', angle);
+      arcGlowTrail.style.setProperty('--glow-angle', angle);
+      arcGlowOuter.style.setProperty('--glow-angle', angle);
+      arcGlowWide.style.setProperty('--glow-angle', angle);
+      arcGlowHaze.style.setProperty('--glow-angle', angle);
+    }
+
+    function updateCount(count) {
+      currentCount = count;
+      countEl.textContent = count;
+      countEl.setAttribute('data-number', count);
+      wrapperEl.setAttribute('data-number', count);
+      updateStarPosition(count);
+    }
+
+    // Initial update after page load (with small delay for layout)
+    window.addEventListener('load', () => {
+      setTimeout(() => updateCount(1000), 50);
+    });
+
+    // Update on resize with debounce
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        updateStarPosition(currentCount);
+      }, 100);
+    });
+
+    // Also update on orientation change
+    window.addEventListener('orientationchange', () => {
+      setTimeout(() => updateStarPosition(currentCount), 200);
+    });
+
+    // Update star on scroll (for fixed positioning)
+    window.addEventListener('scroll', () => {
+      updateStarPosition(currentCount);
+    }, { passive: true });
+
+
+    // Demo: Uncomment to see star animation
+    // setInterval(() => {
+    //   currentCount = Math.max(0, currentCount - 10);
+    //   updateCount(currentCount);
+    //   if (currentCount <= 0) currentCount = 1000;
+    // }, 100);
 
     // Form logic
     const emailStep = document.getElementById('emailStep');
