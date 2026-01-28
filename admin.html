@@ -567,15 +567,32 @@
 
     // Initialize
     async function init() {
-      const client = window.getSupabaseClient();
-      if (!client) {
-        loginError.textContent = 'Supabase未設定。js/supabase-client.jsを確認してください。';
+      console.log('[Admin] Initializing...');
+      console.log('[Admin] window.getSupabaseClient:', typeof window.getSupabaseClient);
+
+      if (typeof window.getSupabaseClient !== 'function') {
+        loginError.textContent = 'スクリプト読み込みエラー。ページを再読み込みしてください。';
+        loginButton.disabled = false;
+        loginButton.textContent = 'ログイン';
         return;
       }
 
-      const isAuth = await window.adminAPI.checkAuth();
-      if (isAuth) {
-        showDashboard();
+      const client = window.getSupabaseClient();
+      console.log('[Admin] Supabase client:', client);
+
+      if (!client) {
+        loginError.textContent = 'Supabase接続エラー。設定を確認してください。';
+        return;
+      }
+
+      try {
+        const isAuth = await window.adminAPI.checkAuth();
+        console.log('[Admin] isAuth:', isAuth);
+        if (isAuth) {
+          showDashboard();
+        }
+      } catch (err) {
+        console.error('[Admin] Auth check failed:', err);
       }
     }
 
