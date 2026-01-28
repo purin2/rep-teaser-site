@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rep Admin - 管理ダッシュボード</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --brand: #CCFF33;
+      --brand-dark: #a3cc29;
+      --bg: #0a0a0a;
+      --bg-card: #141414;
+      --bg-input: #1a1a1a;
+      --text: #ffffff;
+      --text-muted: rgba(255, 255, 255, 0.6);
+      --border: rgba(255, 255, 255, 0.1);
+      --danger: #ff4d4d;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Login Screen */
+    .login-screen {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    .login-screen.hidden {
+      display: none;
+    }
+
+    .login-logo {
+      margin-bottom: 40px;
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--brand);
+    }
+
+    .login-form {
+      width: 100%;
+      max-width: 360px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 14px 16px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 15px;
+      font-family: inherit;
+    }
+
+    .login-input:focus {
+      outline: none;
+      border-color: var(--brand);
+    }
+
+    .login-button {
+      padding: 14px;
+      background: var(--brand);
+      border: none;
+      border-radius: 8px;
+      color: #000;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .login-button:hover {
+      background: var(--brand-dark);
+    }
+
+    .login-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .login-error {
+      color: var(--danger);
+      font-size: 13px;
+      text-align: center;
+      min-height: 20px;
+    }
+
+    /* Dashboard */
+    .dashboard {
+      display: none;
+      padding: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .dashboard.visible {
+      display: block;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+
+    .header-title {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .header-title span {
+      color: var(--brand);
+    }
+
+    .logout-button {
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .logout-button:hover {
+      border-color: var(--text-muted);
+      color: var(--text);
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 36px;
+      font-weight: 700;
+    }
+
+    .stat-value.brand {
+      color: var(--brand);
+    }
+
+    /* Edit Count */
+    .edit-count-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .edit-count-form {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .count-input {
+      width: 120px;
+      padding: 10px 14px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 18px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .count-input:focus {
+      outline: none;
+      border-color: var(--brand);
+    }
+
+    .save-button {
+      padding: 10px 24px;
+      background: var(--brand);
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .save-button:hover {
+      background: var(--brand-dark);
+    }
+
+    .save-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .save-message {
+      font-size: 13px;
+      color: var(--brand);
+      margin-left: 12px;
+    }
+
+    /* Registrations Table */
+    .table-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .search-input {
+      width: 280px;
+      padding: 10px 14px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--brand);
+    }
+
+    .export-button {
+      padding: 10px 20px;
+      background: transparent;
+      border: 1px solid var(--brand);
+      border-radius: 6px;
+      color: var(--brand);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .export-button:hover {
+      background: var(--brand);
+      color: #000;
+    }
+
+    .table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th {
+      text-align: left;
+      padding: 14px 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--bg-input);
+    }
+
+    td {
+      padding: 16px 20px;
+      font-size: 14px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .email-cell {
+      color: var(--brand);
+    }
+
+    .date-cell {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .delete-button {
+      padding: 6px 12px;
+      background: transparent;
+      border: 1px solid var(--danger);
+      border-radius: 4px;
+      color: var(--danger);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .delete-button:hover {
+      background: var(--danger);
+      color: #000;
+    }
+
+    /* Pagination */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 20px;
+      border-top: 1px solid var(--border);
+    }
+
+    .page-button {
+      padding: 8px 14px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .page-button:hover:not(:disabled) {
+      border-color: var(--brand);
+    }
+
+    .page-button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .page-info {
+      font-size: 13px;
+      color: var(--text-muted);
+      padding: 0 12px;
+    }
+
+    /* Empty State */
+    .empty-state {
+      padding: 60px 20px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    /* Loading */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      color: var(--text-muted);
+    }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .dashboard {
+        padding: 16px;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 16px;
+        align-items: flex-start;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .stat-card {
+        padding: 16px;
+      }
+
+      .stat-value {
+        font-size: 28px;
+      }
+
+      .edit-count-form {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .count-input {
+        width: 100%;
+      }
+
+      .table-header {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .search-input {
+        width: 100%;
+      }
+
+      th, td {
+        padding: 12px;
+        font-size: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Screen -->
+  <div class="login-screen" id="loginScreen">
+    <div class="login-logo">Rep Admin</div>
+    <form class="login-form" id="loginForm">
+      <input type="email" class="login-input" id="loginEmail" placeholder="メールアドレス" required>
+      <input type="password" class="login-input" id="loginPassword" placeholder="パスワード" required>
+      <button type="submit" class="login-button" id="loginButton">ログイン</button>
+      <p class="login-error" id="loginError"></p>
+    </form>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="dashboard" id="dashboard">
+    <header class="header">
+      <h1 class="header-title"><span>Rep</span> Admin</h1>
+      <button class="logout-button" id="logoutButton">ログアウト</button>
+    </header>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <p class="stat-label">残り人数</p>
+        <p class="stat-value brand" id="statRemaining">-</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">総登録者数</p>
+        <p class="stat-value" id="statTotal">-</p>
+      </div>
+      <div class="stat-card">
+        <p class="stat-label">本日の登録</p>
+        <p class="stat-value" id="statToday">-</p>
+      </div>
+    </div>
+
+    <!-- Edit Count -->
+    <div class="edit-count-section">
+      <h2 class="section-title">残り人数を変更</h2>
+      <div class="edit-count-form">
+        <input type="number" class="count-input" id="countInput" min="0" value="0">
+        <button class="save-button" id="saveCountButton">保存</button>
+        <span class="save-message" id="saveMessage"></span>
+      </div>
+    </div>
+
+    <!-- Registrations Table -->
+    <div class="table-section">
+      <div class="table-header">
+        <input type="text" class="search-input" id="searchInput" placeholder="メール、氏名、会社名で検索...">
+        <button class="export-button" id="exportButton">CSVエクスポート</button>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>メールアドレス</th>
+              <th>氏名</th>
+              <th>会社名</th>
+              <th>役職</th>
+              <th>登録日時</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="registrationsBody">
+            <tr>
+              <td colspan="6" class="loading">読み込み中...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination" id="pagination">
+        <button class="page-button" id="prevPage">前へ</button>
+        <span class="page-info" id="pageInfo">1 / 1</span>
+        <button class="page-button" id="nextPage">次へ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/admin.js"></script>
+  <script>
+    // DOM Elements
+    const loginScreen = document.getElementById('loginScreen');
+    const loginForm = document.getElementById('loginForm');
+    const loginEmail = document.getElementById('loginEmail');
+    const loginPassword = document.getElementById('loginPassword');
+    const loginButton = document.getElementById('loginButton');
+    const loginError = document.getElementById('loginError');
+    const dashboard = document.getElementById('dashboard');
+    const logoutButton = document.getElementById('logoutButton');
+    const statRemaining = document.getElementById('statRemaining');
+    const statTotal = document.getElementById('statTotal');
+    const statToday = document.getElementById('statToday');
+    const countInput = document.getElementById('countInput');
+    const saveCountButton = document.getElementById('saveCountButton');
+    const saveMessage = document.getElementById('saveMessage');
+    const searchInput = document.getElementById('searchInput');
+    const exportButton = document.getElementById('exportButton');
+    const registrationsBody = document.getElementById('registrationsBody');
+    const prevPage = document.getElementById('prevPage');
+    const nextPage = document.getElementById('nextPage');
+    const pageInfo = document.getElementById('pageInfo');
+
+    // State
+    let totalPages = 1;
+
+    // Initialize
+    async function init() {
+      const client = window.getSupabaseClient();
+      if (!client) {
+        loginError.textContent = 'Supabase未設定。js/supabase-client.jsを確認してください。';
+        return;
+      }
+
+      const isAuth = await window.adminAPI.checkAuth();
+      if (isAuth) {
+        showDashboard();
+      }
+    }
+
+    // Show dashboard
+    async function showDashboard() {
+      loginScreen.classList.add('hidden');
+      dashboard.classList.add('visible');
+      await loadDashboard();
+    }
+
+    // Load dashboard data
+    async function loadDashboard() {
+      try {
+        const stats = await window.adminAPI.getDashboardStats();
+        statRemaining.textContent = stats.remaining_count.toLocaleString();
+        statTotal.textContent = stats.total.toLocaleString();
+        statToday.textContent = stats.today.toLocaleString();
+        countInput.value = stats.remaining_count;
+      } catch (e) {
+        console.error('Failed to load stats:', e);
+      }
+
+      await loadRegistrations();
+    }
+
+    // Load registrations
+    async function loadRegistrations() {
+      const page = window.adminAPI.getCurrentPage();
+      const query = window.adminAPI.getSearchQuery();
+
+      registrationsBody.innerHTML = '<tr><td colspan="6" class="loading">読み込み中...</td></tr>';
+
+      try {
+        const { data, count } = await window.adminAPI.getRegistrations(page, window.adminAPI.getPageSize(), query);
+
+        if (data.length === 0) {
+          registrationsBody.innerHTML = '<tr><td colspan="6" class="empty-state">登録者がいません</td></tr>';
+          updatePagination(0);
+          return;
+        }
+
+        registrationsBody.innerHTML = data.map(r => `
+          <tr>
+            <td class="email-cell">${escapeHtml(r.email)}</td>
+            <td>${escapeHtml(r.name || '-')}</td>
+            <td>${escapeHtml(r.company || '-')}</td>
+            <td>${escapeHtml(r.position || '-')}</td>
+            <td class="date-cell">${formatDate(r.created_at)}</td>
+            <td>
+              <button class="delete-button" onclick="handleDelete('${r.id}')">削除</button>
+            </td>
+          </tr>
+        `).join('');
+
+        updatePagination(count);
+      } catch (e) {
+        console.error('Failed to load registrations:', e);
+        registrationsBody.innerHTML = '<tr><td colspan="6" class="empty-state">読み込みに失敗しました</td></tr>';
+      }
+    }
+
+    // Update pagination
+    function updatePagination(total) {
+      const page = window.adminAPI.getCurrentPage();
+      const pageSize = window.adminAPI.getPageSize();
+      totalPages = Math.max(1, Math.ceil(total / pageSize));
+      pageInfo.textContent = `${page} / ${totalPages}`;
+      prevPage.disabled = page <= 1;
+      nextPage.disabled = page >= totalPages;
+    }
+
+    // Handle delete
+    async function handleDelete(id) {
+      if (!confirm('この登録を削除してもよろしいですか？')) return;
+
+      try {
+        await window.adminAPI.deleteRegistration(id);
+        await loadDashboard();
+      } catch (e) {
+        alert('削除に失敗しました');
+      }
+    }
+
+    // Escape HTML
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Format date
+    function formatDate(dateStr) {
+      if (!dateStr) return '-';
+      const d = new Date(dateStr);
+      return `${d.getFullYear()}/${(d.getMonth() + 1).toString().padStart(2, '0')}/${d.getDate().toString().padStart(2, '0')} ${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+    }
+
+    // Event Listeners
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      loginError.textContent = '';
+      loginButton.disabled = true;
+      loginButton.textContent = 'ログイン中...';
+
+      const result = await window.adminAPI.login(loginEmail.value, loginPassword.value);
+
+      if (!result.success) {
+        loginError.textContent = result.error || 'ログインに失敗しました';
+        loginButton.disabled = false;
+        loginButton.textContent = 'ログイン';
+        return;
+      }
+
+      showDashboard();
+    });
+
+    logoutButton.addEventListener('click', () => {
+      window.adminAPI.logout();
+    });
+
+    saveCountButton.addEventListener('click', async () => {
+      const newCount = parseInt(countInput.value, 10);
+      if (isNaN(newCount) || newCount < 0) {
+        alert('有効な数値を入力してください');
+        return;
+      }
+
+      saveCountButton.disabled = true;
+      saveMessage.textContent = '';
+
+      try {
+        await window.adminAPI.updateRemainingCount(newCount);
+        saveMessage.textContent = '保存しました';
+        statRemaining.textContent = newCount.toLocaleString();
+        setTimeout(() => { saveMessage.textContent = ''; }, 3000);
+      } catch (e) {
+        alert('保存に失敗しました');
+      } finally {
+        saveCountButton.disabled = false;
+      }
+    });
+
+    let searchTimeout;
+    searchInput.addEventListener('input', () => {
+      clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        window.adminAPI.setSearchQuery(searchInput.value.trim());
+        window.adminAPI.setCurrentPage(1);
+        loadRegistrations();
+      }, 300);
+    });
+
+    exportButton.addEventListener('click', async () => {
+      exportButton.disabled = true;
+      exportButton.textContent = 'エクスポート中...';
+
+      try {
+        await window.adminAPI.exportCSV();
+      } catch (e) {
+        alert('エクスポートに失敗しました');
+      } finally {
+        exportButton.disabled = false;
+        exportButton.textContent = 'CSVエクスポート';
+      }
+    });
+
+    prevPage.addEventListener('click', () => {
+      const page = window.adminAPI.getCurrentPage();
+      if (page > 1) {
+        window.adminAPI.setCurrentPage(page - 1);
+        loadRegistrations();
+      }
+    });
+
+    nextPage.addEventListener('click', () => {
+      const page = window.adminAPI.getCurrentPage();
+      if (page < totalPages) {
+        window.adminAPI.setCurrentPage(page + 1);
+        loadRegistrations();
+      }
+    });
+
+    // Initialize on load
+    init();
+  </script>
+</body>
+</html>

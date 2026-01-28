@@ -1253,6 +1253,8 @@
       }
     }
   </style>
+  <!-- Supabase JS Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <div class="particles"></div>
@@ -1531,6 +1533,110 @@
     }, { threshold: 0.15 });
 
     revealElements.forEach(el => observer.observe(el));
+  </script>
+
+  <!-- Supabase Client & Registration -->
+  <script src="js/supabase-client.js"></script>
+  <script src="js/registration.js"></script>
+  <script>
+    // Initialize Supabase and load count on page load
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Initialize Supabase client
+      const client = window.getSupabaseClient();
+      if (!client) {
+        console.warn('[App] Supabase not configured, using demo mode');
+        return;
+      }
+
+      // Load initial count from database
+      try {
+        await window.registrationAPI.initCount();
+      } catch (e) {
+        console.warn('[App] Using demo count');
+      }
+    });
+
+    // Override email submit to use Supabase
+    emailSubmit.removeEventListener('click', emailSubmit._handler);
+    emailSubmit._handler = async () => {
+      const email = emailInput.value.trim();
+      if (!email || !isValidEmail(email)) {
+        formError.textContent = '有効なメールアドレスを入力してください';
+        formError.classList.add('visible');
+        return;
+      }
+      formError.classList.remove('visible');
+
+      // Disable button during submission
+      emailSubmit.disabled = true;
+      emailSubmit.textContent = '送信中...';
+
+      try {
+        const result = await window.registrationAPI.register(email);
+
+        if (!result.success) {
+          if (result.error === 'duplicate_email') {
+            formError.textContent = 'このメールアドレスは既に登録されています';
+          } else if (result.error === 'registration_closed') {
+            formError.textContent = '申し訳ございません。受付は終了しました';
+          } else {
+            formError.textContent = '登録に失敗しました。もう一度お試しください';
+          }
+          formError.classList.add('visible');
+          emailSubmit.disabled = false;
+          emailSubmit.textContent = '事前登録';
+          return;
+        }
+
+        // Store registration ID for questionnaire
+        window.registrationAPI.setCurrentRegistrationId(result.id);
+        userEmail = email;
+
+        // Show questionnaire
+        emailStep.style.display = 'none';
+        questionnaireStep.classList.add('visible');
+
+      } catch (e) {
+        console.error('[App] Registration error:', e);
+        formError.textContent = '登録に失敗しました。もう一度お試しください';
+        formError.classList.add('visible');
+      } finally {
+        emailSubmit.disabled = false;
+        emailSubmit.textContent = '事前登録';
+      }
+    };
+    emailSubmit.addEventListener('click', emailSubmit._handler);
+
+    // Override questionnaire submit
+    questionnaireForm.removeEventListener('submit', questionnaireForm._handler);
+    questionnaireForm._handler = async (e) => {
+      e.preventDefault();
+
+      const registrationId = window.registrationAPI.getCurrentRegistrationId();
+      if (!registrationId) {
+        // Fallback: just show thank you
+        questionnaireStep.classList.remove('visible');
+        questionnaireStep.style.display = 'none';
+        thankYouStep.classList.add('visible');
+        return;
+      }
+
+      const name = document.getElementById('nameInput').value.trim();
+      const company = document.getElementById('companyInput').value.trim();
+      const position = document.getElementById('positionInput').value.trim();
+
+      try {
+        await window.registrationAPI.updateQuestionnaire(registrationId, name, company, position);
+      } catch (e) {
+        console.error('[App] Questionnaire update error:', e);
+        // Continue to thank you even if update fails
+      }
+
+      questionnaireStep.classList.remove('visible');
+      questionnaireStep.style.display = 'none';
+      thankYouStep.classList.add('visible');
+    };
+    questionnaireForm.addEventListener('submit', questionnaireForm._handler);
   </script>
 
 </body>
