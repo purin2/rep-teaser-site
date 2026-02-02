@@ -397,6 +397,341 @@
       color: var(--text-muted);
     }
 
+    /* Main Tabs */
+    .main-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .main-tab {
+      padding: 12px 24px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .main-tab:hover {
+      color: var(--text);
+    }
+
+    .main-tab.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Sub Tabs */
+    .sub-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+
+    .sub-tab {
+      padding: 8px 16px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-size: 13px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sub-tab:hover {
+      border-color: var(--brand);
+      color: var(--text);
+    }
+
+    .sub-tab.active {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #000;
+    }
+
+    .sub-content {
+      display: none;
+    }
+
+    .sub-content.active {
+      display: block;
+    }
+
+    /* Email Settings Form */
+    .email-form-group {
+      margin-bottom: 20px;
+    }
+
+    .email-form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .email-form-input {
+      width: 100%;
+      max-width: 500px;
+      padding: 12px 14px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: inherit;
+    }
+
+    .email-form-input:focus {
+      outline: none;
+      border-color: var(--brand);
+    }
+
+    .email-form-textarea {
+      width: 100%;
+      max-width: 700px;
+      min-height: 200px;
+      padding: 12px 14px;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-size: 14px;
+      font-family: monospace;
+      resize: vertical;
+    }
+
+    .email-form-textarea:focus {
+      outline: none;
+      border-color: var(--brand);
+    }
+
+    .variables-hint {
+      margin-top: 8px;
+      padding: 12px;
+      background: rgba(204, 255, 51, 0.1);
+      border-radius: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .variables-hint code {
+      background: var(--bg-input);
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: var(--brand);
+    }
+
+    /* Preview Box */
+    .preview-box {
+      margin-top: 20px;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      color: #000;
+    }
+
+    .preview-box h3 {
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    /* Toggle Switch */
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 48px;
+      height: 26px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      transition: 0.2s;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: var(--text-muted);
+      border-radius: 50%;
+      transition: 0.2s;
+    }
+
+    .toggle-switch input:checked + .toggle-slider {
+      background-color: var(--brand);
+      border-color: var(--brand);
+    }
+
+    .toggle-switch input:checked + .toggle-slider:before {
+      transform: translateX(22px);
+      background-color: #000;
+    }
+
+    .toggle-label {
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    /* Bulk Send */
+    .bulk-send-options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .bulk-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bulk-option input[type="radio"] {
+      accent-color: var(--brand);
+    }
+
+    .bulk-option label {
+      font-size: 14px;
+    }
+
+    .bulk-send-button {
+      padding: 12px 32px;
+      background: var(--brand);
+      border: none;
+      border-radius: 6px;
+      color: #000;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .bulk-send-button:hover {
+      background: var(--brand-dark);
+    }
+
+    .bulk-send-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .bulk-result {
+      margin-top: 20px;
+      padding: 16px;
+      background: var(--bg-input);
+      border-radius: 8px;
+    }
+
+    .bulk-result-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .bulk-result-stats {
+      display: flex;
+      gap: 24px;
+    }
+
+    .bulk-stat {
+      font-size: 13px;
+    }
+
+    .bulk-stat-value {
+      font-weight: 600;
+      color: var(--brand);
+    }
+
+    .bulk-stat-failed {
+      color: var(--danger);
+    }
+
+    /* Email Logs Table */
+    .email-logs-search {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-sent {
+      background: rgba(76, 175, 80, 0.2);
+      color: #4caf50;
+    }
+
+    .status-failed {
+      background: rgba(255, 77, 77, 0.2);
+      color: var(--danger);
+    }
+
+    .status-pending {
+      background: rgba(255, 193, 7, 0.2);
+      color: #ffc107;
+    }
+
+    /* Send Email Button */
+    .send-email-button {
+      padding: 6px 12px;
+      background: transparent;
+      border: 1px solid var(--brand);
+      border-radius: 4px;
+      color: var(--brand);
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-right: 8px;
+    }
+
+    .send-email-button:hover {
+      background: var(--brand);
+      color: #000;
+    }
+
     /* Loading */
     .loading {
       display: flex;
@@ -474,6 +809,14 @@
       <button class="logout-button" id="logoutButton">ログアウト</button>
     </header>
 
+    <!-- Main Tabs -->
+    <div class="main-tabs">
+      <button class="main-tab active" data-tab="dashboard">ダッシュボード</button>
+      <button class="main-tab" data-tab="email">メール設定</button>
+    </div>
+
+    <!-- Dashboard Tab -->
+    <div class="tab-content active" id="dashboardTab">
     <!-- Stats -->
     <div class="stats-grid">
       <div class="stat-card">
@@ -516,7 +859,7 @@
               <th>会社名</th>
               <th>役職</th>
               <th>登録日時</th>
-              <th></th>
+              <th>アクション</th>
             </tr>
           </thead>
           <tbody id="registrationsBody">
@@ -533,6 +876,155 @@
         <button class="page-button" id="nextPage">次へ</button>
       </div>
     </div>
+    </div><!-- End Dashboard Tab -->
+
+    <!-- Email Tab -->
+    <div class="tab-content" id="emailTab">
+      <div class="sub-tabs">
+        <button class="sub-tab active" data-subtab="template">テンプレート</button>
+        <button class="sub-tab" data-subtab="settings">設定</button>
+        <button class="sub-tab" data-subtab="bulk">一括送信</button>
+        <button class="sub-tab" data-subtab="logs">送信履歴</button>
+      </div>
+
+      <!-- Template Sub Tab -->
+      <div class="sub-content active" id="templateSubTab">
+        <div class="edit-count-section">
+          <h2 class="section-title">メールテンプレート編集</h2>
+
+          <div class="email-form-group">
+            <label class="email-form-label">件名</label>
+            <input type="text" class="email-form-input" id="templateSubject" placeholder="メール件名">
+          </div>
+
+          <div class="email-form-group">
+            <label class="email-form-label">本文 (HTML)</label>
+            <textarea class="email-form-textarea" id="templateBody" placeholder="メール本文（HTML形式）"></textarea>
+            <div class="variables-hint">
+              使用可能な変数:
+              <code>{{name}}</code> ユーザー氏名
+              <code>{{email}}</code> メールアドレス
+              <code>{{coupon_code}}</code> クーポンコード
+              <code>{{app_store_url}}</code> App Store URL
+              <code>{{google_play_url}}</code> Google Play URL
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 12px; margin-top: 20px;">
+            <button class="save-button" id="saveTemplateButton">テンプレートを保存</button>
+            <button class="export-button" id="previewTemplateButton">プレビュー</button>
+          </div>
+          <span class="save-message" id="templateSaveMessage"></span>
+
+          <div class="preview-box" id="templatePreview" style="display: none;">
+            <h3 id="previewSubject"></h3>
+            <div id="previewBody"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Sub Tab -->
+      <div class="sub-content" id="settingsSubTab">
+        <div class="edit-count-section">
+          <h2 class="section-title">メール送信設定</h2>
+
+          <div class="email-form-group">
+            <label class="email-form-label">クーポンコード</label>
+            <input type="text" class="email-form-input" id="couponCode" placeholder="例: REP2024LAUNCH">
+          </div>
+
+          <div class="email-form-group">
+            <label class="email-form-label">App Store URL</label>
+            <input type="url" class="email-form-input" id="appStoreUrl" placeholder="https://apps.apple.com/...">
+          </div>
+
+          <div class="email-form-group">
+            <label class="email-form-label">Google Play URL</label>
+            <input type="url" class="email-form-input" id="googlePlayUrl" placeholder="https://play.google.com/...">
+          </div>
+
+          <div class="email-form-group">
+            <label class="email-form-label">自動送信</label>
+            <div class="toggle-container">
+              <label class="toggle-switch">
+                <input type="checkbox" id="autoSendEnabled">
+                <span class="toggle-slider"></span>
+              </label>
+              <span class="toggle-label" id="autoSendLabel">OFF</span>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">
+              ONにすると、新規登録時に自動でメールが送信されます
+            </p>
+          </div>
+
+          <button class="save-button" id="saveEmailSettingsButton" style="margin-top: 20px;">設定を保存</button>
+          <span class="save-message" id="settingsSaveMessage"></span>
+        </div>
+      </div>
+
+      <!-- Bulk Send Sub Tab -->
+      <div class="sub-content" id="bulkSubTab">
+        <div class="edit-count-section">
+          <h2 class="section-title">一括メール送信</h2>
+
+          <div class="bulk-send-options">
+            <div class="bulk-option">
+              <input type="radio" name="bulkTarget" id="bulkAll" value="all">
+              <label for="bulkAll">全登録者に送信</label>
+            </div>
+            <div class="bulk-option">
+              <input type="radio" name="bulkTarget" id="bulkUnsent" value="unsent" checked>
+              <label for="bulkUnsent">未送信の登録者のみ</label>
+            </div>
+          </div>
+
+          <button class="bulk-send-button" id="bulkSendButton">一括送信を実行</button>
+
+          <div class="bulk-result" id="bulkResult" style="display: none;">
+            <p class="bulk-result-title">送信結果</p>
+            <div class="bulk-result-stats">
+              <span class="bulk-stat">合計: <span class="bulk-stat-value" id="bulkTotal">0</span>件</span>
+              <span class="bulk-stat">成功: <span class="bulk-stat-value" id="bulkSent">0</span>件</span>
+              <span class="bulk-stat">失敗: <span class="bulk-stat-value bulk-stat-failed" id="bulkFailed">0</span>件</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Logs Sub Tab -->
+      <div class="sub-content" id="logsSubTab">
+        <div class="table-section">
+          <div class="table-header">
+            <input type="text" class="search-input" id="logsSearchInput" placeholder="メールアドレスで検索...">
+          </div>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>宛先</th>
+                  <th>件名</th>
+                  <th>ステータス</th>
+                  <th>送信日時</th>
+                  <th>エラー</th>
+                </tr>
+              </thead>
+              <tbody id="logsBody">
+                <tr>
+                  <td colspan="5" class="loading">読み込み中...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="pagination" id="logsPagination">
+            <button class="page-button" id="logsPrevPage">前へ</button>
+            <span class="page-info" id="logsPageInfo">1 / 1</span>
+            <button class="page-button" id="logsNextPage">次へ</button>
+          </div>
+        </div>
+      </div>
+    </div><!-- End Email Tab -->
   </div>
 
   <!-- Scripts -->
@@ -755,6 +1247,7 @@
             <td>${escapeHtml(r.position || '-')}</td>
             <td class="date-cell">${formatDate(r.created_at)}</td>
             <td>
+              <button class="send-email-button" onclick="handleSendEmail('${r.id}', '${escapeHtml(r.email)}', '${escapeHtml(r.name || '')}')">メール送信</button>
               <button class="delete-button" onclick="handleDelete('${r.id}')">削除</button>
             </td>
           </tr>
@@ -900,6 +1393,393 @@
 
     // Initialize on load
     init();
+
+    // ========== Email Management ==========
+
+    // Email Admin API
+    window.emailAPI = {
+      // Template
+      getTemplate: async function() {
+        const client = window.getSupabaseClient();
+        const { data } = await client
+          .from('email_templates')
+          .select('*')
+          .eq('id', 'default')
+          .single();
+        return data;
+      },
+
+      updateTemplate: async function(subject, body) {
+        const client = window.getSupabaseClient();
+        await client
+          .from('email_templates')
+          .update({
+            subject,
+            body,
+            updated_at: new Date().toISOString()
+          })
+          .eq('id', 'default');
+      },
+
+      // Settings
+      getEmailSettings: async function() {
+        const client = window.getSupabaseClient();
+        const { data } = await client
+          .from('settings')
+          .select('key, value')
+          .in('key', ['coupon_code', 'app_store_url', 'google_play_url', 'auto_send_enabled']);
+
+        const settings = {};
+        data?.forEach(({ key, value }) => {
+          if (key === 'auto_send_enabled') {
+            settings[key] = value === 'true';
+          } else {
+            settings[key] = typeof value === 'string' ? value.replace(/^"|"$/g, '') : '';
+          }
+        });
+        return settings;
+      },
+
+      updateEmailSetting: async function(key, value) {
+        const client = window.getSupabaseClient();
+        const { data: { user } } = await client.auth.getUser();
+        const storeValue = key === 'auto_send_enabled' ? value : JSON.stringify(value);
+
+        await client
+          .from('settings')
+          .upsert({
+            key,
+            value: storeValue,
+            updated_at: new Date().toISOString(),
+            updated_by: user?.id
+          }, { onConflict: 'key' });
+      },
+
+      // Email Logs
+      getEmailLogs: async function(page = 1, limit = 20, query = '') {
+        const client = window.getSupabaseClient();
+        const offset = (page - 1) * limit;
+        let q = client
+          .from('email_logs')
+          .select('*', { count: 'exact' })
+          .order('created_at', { ascending: false })
+          .range(offset, offset + limit - 1);
+
+        if (query) {
+          q = q.ilike('email', `%${query}%`);
+        }
+
+        const { data, count } = await q;
+        return { data: data ?? [], count: count ?? 0 };
+      },
+
+      // Bulk Send
+      bulkSend: async function(target) {
+        const client = window.getSupabaseClient();
+        const { data, error } = await client.functions.invoke('bulk-send', {
+          body: { target }
+        });
+
+        if (error) throw error;
+        return data;
+      },
+
+      // Send Single Email
+      sendSingleEmail: async function(registrationId, email, name) {
+        const client = window.getSupabaseClient();
+        const { data, error } = await client.functions.invoke('send-email', {
+          body: {
+            type: 'INSERT',
+            table: 'registrations',
+            record: { id: registrationId, email, name },
+            schema: 'public'
+          }
+        });
+
+        if (error) throw error;
+        return data;
+      },
+
+      // State
+      logsPage: 1,
+      logsPageSize: 20,
+      logsQuery: ''
+    };
+
+    // Tab switching
+    document.querySelectorAll('.main-tab').forEach(tab => {
+      tab.addEventListener('click', async () => {
+        document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+        tab.classList.add('active');
+        const tabId = tab.dataset.tab + 'Tab';
+        document.getElementById(tabId).classList.add('active');
+
+        if (tab.dataset.tab === 'email') {
+          await loadEmailSettings();
+          await loadTemplate();
+        }
+      });
+    });
+
+    // Sub tab switching
+    document.querySelectorAll('.sub-tab').forEach(tab => {
+      tab.addEventListener('click', async () => {
+        document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.sub-content').forEach(c => c.classList.remove('active'));
+
+        tab.classList.add('active');
+        const tabId = tab.dataset.subtab + 'SubTab';
+        document.getElementById(tabId).classList.add('active');
+
+        if (tab.dataset.subtab === 'logs') {
+          await loadEmailLogs();
+        }
+      });
+    });
+
+    // Load template
+    async function loadTemplate() {
+      try {
+        const template = await window.emailAPI.getTemplate();
+        if (template) {
+          document.getElementById('templateSubject').value = template.subject || '';
+          document.getElementById('templateBody').value = template.body || '';
+        }
+      } catch (e) {
+        console.error('Failed to load template:', e);
+      }
+    }
+
+    // Save template
+    document.getElementById('saveTemplateButton').addEventListener('click', async () => {
+      const btn = document.getElementById('saveTemplateButton');
+      const msg = document.getElementById('templateSaveMessage');
+      btn.disabled = true;
+
+      try {
+        const subject = document.getElementById('templateSubject').value;
+        const body = document.getElementById('templateBody').value;
+        await window.emailAPI.updateTemplate(subject, body);
+        msg.textContent = '保存しました';
+        msg.style.color = 'var(--brand)';
+        setTimeout(() => { msg.textContent = ''; }, 3000);
+      } catch (e) {
+        msg.textContent = '保存に失敗しました';
+        msg.style.color = 'var(--danger)';
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    // Preview template
+    document.getElementById('previewTemplateButton').addEventListener('click', async () => {
+      const subject = document.getElementById('templateSubject').value;
+      const body = document.getElementById('templateBody').value;
+
+      const settings = await window.emailAPI.getEmailSettings();
+      const variables = {
+        name: 'テスト太郎',
+        email: 'test@example.com',
+        coupon_code: settings.coupon_code || 'TESTCODE',
+        app_store_url: settings.app_store_url || 'https://apps.apple.com/...',
+        google_play_url: settings.google_play_url || 'https://play.google.com/...'
+      };
+
+      let previewSubject = subject;
+      let previewBody = body;
+
+      for (const [key, value] of Object.entries(variables)) {
+        const regex = new RegExp(`\\{\\{${key}\\}\\}`, 'g');
+        previewSubject = previewSubject.replace(regex, value);
+        previewBody = previewBody.replace(regex, value);
+      }
+
+      document.getElementById('previewSubject').textContent = previewSubject;
+      document.getElementById('previewBody').innerHTML = previewBody;
+      document.getElementById('templatePreview').style.display = 'block';
+    });
+
+    // Load email settings
+    async function loadEmailSettings() {
+      try {
+        const settings = await window.emailAPI.getEmailSettings();
+        document.getElementById('couponCode').value = settings.coupon_code || '';
+        document.getElementById('appStoreUrl').value = settings.app_store_url || '';
+        document.getElementById('googlePlayUrl').value = settings.google_play_url || '';
+        document.getElementById('autoSendEnabled').checked = settings.auto_send_enabled || false;
+        document.getElementById('autoSendLabel').textContent = settings.auto_send_enabled ? 'ON' : 'OFF';
+      } catch (e) {
+        console.error('Failed to load email settings:', e);
+      }
+    }
+
+    // Auto send toggle label update
+    document.getElementById('autoSendEnabled').addEventListener('change', (e) => {
+      document.getElementById('autoSendLabel').textContent = e.target.checked ? 'ON' : 'OFF';
+    });
+
+    // Save email settings
+    document.getElementById('saveEmailSettingsButton').addEventListener('click', async () => {
+      const btn = document.getElementById('saveEmailSettingsButton');
+      const msg = document.getElementById('settingsSaveMessage');
+      btn.disabled = true;
+
+      try {
+        const couponCode = document.getElementById('couponCode').value;
+        const appStoreUrl = document.getElementById('appStoreUrl').value;
+        const googlePlayUrl = document.getElementById('googlePlayUrl').value;
+        const autoSendEnabled = document.getElementById('autoSendEnabled').checked;
+
+        // URL validation
+        const urlPattern = /^(https?:\/\/)?[\w\-]+(\.[\w\-]+)+[/#?]?.*$/;
+        if (appStoreUrl && !urlPattern.test(appStoreUrl)) {
+          msg.textContent = 'App Store URLの形式が不正です';
+          msg.style.color = 'var(--danger)';
+          btn.disabled = false;
+          return;
+        }
+        if (googlePlayUrl && !urlPattern.test(googlePlayUrl)) {
+          msg.textContent = 'Google Play URLの形式が不正です';
+          msg.style.color = 'var(--danger)';
+          btn.disabled = false;
+          return;
+        }
+
+        await Promise.all([
+          window.emailAPI.updateEmailSetting('coupon_code', couponCode),
+          window.emailAPI.updateEmailSetting('app_store_url', appStoreUrl),
+          window.emailAPI.updateEmailSetting('google_play_url', googlePlayUrl),
+          window.emailAPI.updateEmailSetting('auto_send_enabled', autoSendEnabled ? 'true' : 'false')
+        ]);
+
+        msg.textContent = '保存しました';
+        msg.style.color = 'var(--brand)';
+        setTimeout(() => { msg.textContent = ''; }, 3000);
+      } catch (e) {
+        msg.textContent = '保存に失敗しました';
+        msg.style.color = 'var(--danger)';
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    // Bulk send
+    document.getElementById('bulkSendButton').addEventListener('click', async () => {
+      const target = document.querySelector('input[name="bulkTarget"]:checked')?.value;
+      if (!target) {
+        alert('送信対象を選択してください');
+        return;
+      }
+
+      if (!confirm(`${target === 'all' ? '全登録者' : '未送信の登録者'}にメールを送信します。よろしいですか？`)) {
+        return;
+      }
+
+      const btn = document.getElementById('bulkSendButton');
+      const result = document.getElementById('bulkResult');
+      btn.disabled = true;
+      btn.textContent = '送信中...';
+      result.style.display = 'none';
+
+      try {
+        const data = await window.emailAPI.bulkSend(target);
+
+        document.getElementById('bulkTotal').textContent = data.total;
+        document.getElementById('bulkSent').textContent = data.sent;
+        document.getElementById('bulkFailed').textContent = data.failed;
+        result.style.display = 'block';
+      } catch (e) {
+        alert('一括送信に失敗しました: ' + (e.message || '不明なエラー'));
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '一括送信を実行';
+      }
+    });
+
+    // Load email logs
+    async function loadEmailLogs() {
+      const logsBody = document.getElementById('logsBody');
+      logsBody.innerHTML = '<tr><td colspan="5" class="loading">読み込み中...</td></tr>';
+
+      try {
+        const { data, count } = await window.emailAPI.getEmailLogs(
+          window.emailAPI.logsPage,
+          window.emailAPI.logsPageSize,
+          window.emailAPI.logsQuery
+        );
+
+        if (data.length === 0) {
+          logsBody.innerHTML = '<tr><td colspan="5" class="empty-state">送信履歴がありません</td></tr>';
+          updateLogsPagination(0);
+          return;
+        }
+
+        logsBody.innerHTML = data.map(log => `
+          <tr>
+            <td class="email-cell">${escapeHtml(log.email)}</td>
+            <td>${escapeHtml(log.subject)}</td>
+            <td><span class="status-badge status-${log.status}">${log.status}</span></td>
+            <td class="date-cell">${log.sent_at ? formatDate(log.sent_at) : '-'}</td>
+            <td style="font-size: 12px; color: var(--danger);">${escapeHtml(log.error_message || '-')}</td>
+          </tr>
+        `).join('');
+
+        updateLogsPagination(count);
+      } catch (e) {
+        console.error('Failed to load email logs:', e);
+        logsBody.innerHTML = '<tr><td colspan="5" class="empty-state">読み込みに失敗しました</td></tr>';
+      }
+    }
+
+    // Update logs pagination
+    function updateLogsPagination(total) {
+      const totalPages = Math.max(1, Math.ceil(total / window.emailAPI.logsPageSize));
+      document.getElementById('logsPageInfo').textContent = `${window.emailAPI.logsPage} / ${totalPages}`;
+      document.getElementById('logsPrevPage').disabled = window.emailAPI.logsPage <= 1;
+      document.getElementById('logsNextPage').disabled = window.emailAPI.logsPage >= totalPages;
+    }
+
+    // Logs search
+    let logsSearchTimeout;
+    document.getElementById('logsSearchInput').addEventListener('input', (e) => {
+      clearTimeout(logsSearchTimeout);
+      logsSearchTimeout = setTimeout(() => {
+        window.emailAPI.logsQuery = e.target.value.trim();
+        window.emailAPI.logsPage = 1;
+        loadEmailLogs();
+      }, 300);
+    });
+
+    // Logs pagination
+    document.getElementById('logsPrevPage').addEventListener('click', () => {
+      if (window.emailAPI.logsPage > 1) {
+        window.emailAPI.logsPage--;
+        loadEmailLogs();
+      }
+    });
+
+    document.getElementById('logsNextPage').addEventListener('click', () => {
+      window.emailAPI.logsPage++;
+      loadEmailLogs();
+    });
+
+    // Handle send single email
+    async function handleSendEmail(registrationId, email, name) {
+      if (!confirm(`${email} にメールを送信しますか？`)) return;
+
+      try {
+        const result = await window.emailAPI.sendSingleEmail(registrationId, email, name);
+        if (result.success) {
+          alert('メールを送信しました');
+        } else {
+          alert('送信に失敗しました: ' + (result.error || '不明なエラー'));
+        }
+      } catch (e) {
+        alert('送信に失敗しました: ' + (e.message || '不明なエラー'));
+      }
+    }
   </script>
 </body>
 </html>
