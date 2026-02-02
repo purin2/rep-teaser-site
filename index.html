@@ -23,6 +23,123 @@
       --bg: #000000;
       --text: #ffffff;
       --text-muted: rgba(255, 255, 255, 0.5);
+      --yellow: #FFF442;
+      --lime: #CCFF33;
+    }
+
+    /* ========================================
+       Splash Screen
+    ======================================== */
+    .splash-screen {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    .splash-wrap {
+      will-change: opacity, transform;
+    }
+
+    .splash-screen svg {
+      width: min(70vw, 380px);
+      height: auto;
+      overflow: visible;
+    }
+
+    .splash-screen .basePath {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .splash-screen .lightTrail {
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .splash-screen .lightPoint {
+      display: none;
+    }
+
+    .splash-screen .splash-fill {
+      opacity: 0;
+    }
+
+    .splash-screen.flash-on .splash-fill {
+      animation: splashFillReveal 1.8s ease-out forwards;
+    }
+
+    @keyframes splashFillReveal {
+      0% { opacity: 0; filter: blur(4px); }
+      60% { opacity: 0.4; filter: blur(2px); }
+      100% { opacity: 1; filter: blur(0); }
+    }
+
+    /* 発光エフェクト */
+    .splash-screen.glow-out .splash-wrap {
+      animation: splashGlowOut 2s ease-out forwards;
+    }
+
+    @keyframes splashGlowOut {
+      0% {
+        filter: none;
+        transform: scale(1);
+        opacity: 1;
+      }
+      20% {
+        filter: brightness(1.8)
+                drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))
+                drop-shadow(0 0 40px rgba(204, 255, 51, 0.7))
+                drop-shadow(0 0 70px rgba(204, 255, 51, 0.4));
+        transform: scale(1.03);
+        opacity: 1;
+      }
+      50% {
+        filter: brightness(2.2)
+                drop-shadow(0 0 25px rgba(255, 255, 255, 0.9))
+                drop-shadow(0 0 60px rgba(204, 255, 51, 0.6))
+                drop-shadow(0 0 100px rgba(204, 255, 51, 0.3));
+        transform: scale(1.05);
+        opacity: 1;
+      }
+      100% {
+        filter: brightness(2.2)
+                drop-shadow(0 0 25px rgba(255, 255, 255, 0.9))
+                drop-shadow(0 0 60px rgba(204, 255, 51, 0.6))
+                drop-shadow(0 0 100px rgba(204, 255, 51, 0.3));
+        transform: scale(1.05);
+        opacity: 0;
+      }
+    }
+
+    .splash-screen.fade-out {
+      animation: splashFadeOut 0.5s ease-out forwards;
+    }
+
+    @keyframes splashFadeOut {
+      to { opacity: 0; }
+    }
+
+    /* Main content hidden initially */
+    .main-content {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .main-content.visible {
+      opacity: 1;
+      visibility: visible;
+      animation: mainContentReveal 1s ease-out forwards;
+    }
+
+    @keyframes mainContentReveal {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     * {
@@ -1257,6 +1374,97 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+  <!-- ======== Splash Screen ======== -->
+  <div class="splash-screen" id="splashScreen">
+    <div class="splash-wrap">
+      <svg viewBox="0 0 162 161" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="splashGlowG" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+            <stop offset="10%" stop-color="#ffffff" stop-opacity="0.6" />
+            <stop offset="25%" stop-color="#E8FF88" stop-opacity="0.4" />
+            <stop offset="50%" stop-color="#CCFF33" stop-opacity="0.2" />
+            <stop offset="80%" stop-color="#CCFF33" stop-opacity="0.05" />
+            <stop offset="100%" stop-color="#CCFF33" stop-opacity="0" />
+          </radialGradient>
+
+          <radialGradient id="splashGlowY" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+            <stop offset="10%" stop-color="#ffffff" stop-opacity="0.6" />
+            <stop offset="25%" stop-color="#FFFAA0" stop-opacity="0.4" />
+            <stop offset="50%" stop-color="#FFF442" stop-opacity="0.2" />
+            <stop offset="80%" stop-color="#FFF442" stop-opacity="0.05" />
+            <stop offset="100%" stop-color="#FFF442" stop-opacity="0" />
+          </radialGradient>
+
+          <filter id="splashTrailGlow" x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="1.5" result="g1" />
+            <feGaussianBlur stdDeviation="4" result="g2" />
+            <feMerge>
+              <feMergeNode in="g2" />
+              <feMergeNode in="g1" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+
+          <filter id="splashPointGlow" x="-300%" y="-300%" width="700%" height="700%">
+            <feGaussianBlur stdDeviation="2" result="p1" />
+            <feGaussianBlur stdDeviation="6" result="p2" />
+            <feGaussianBlur stdDeviation="12" result="p3" />
+            <feMerge>
+              <feMergeNode in="p3" />
+              <feMergeNode in="p2" />
+              <feMergeNode in="p1" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <path id="splashPathG"
+          d="M98.966 120.606C68.7722 120.606 44.2978 96.2737 44.2978 66.255C44.2978 36.2363 67.3868 13.3009 96.38 11.9564C91.3136 10.8021 86.0362 10.1921 80.6201 10.1921C41.7778 10.1921 10.291 41.4963 10.291 80.1133C10.291 118.73 41.7778 150.028 80.6135 150.028C119.449 150.028 149.148 120.468 150.863 83.3664C143.653 104.997 123.143 120.606 98.9594 120.606Z"
+          fill="none" stroke="none" />
+        <path id="splashPathY"
+          d="M87.527 91.4464C106.315 91.4464 121.547 76.3026 121.547 57.6237C121.547 39.4826 107.179 24.6733 89.1366 23.8404C92.2899 23.1255 95.5751 22.7451 98.9461 22.7451C123.11 22.7451 142.703 42.2241 142.703 66.2483C142.703 90.2724 123.11 109.751 98.9461 109.751C75.4613 109.751 56.2974 91.3611 55.2354 68.2683C59.7212 81.7266 72.4861 91.4398 87.527 91.4398Z"
+          fill="none" stroke="none" />
+
+        <path class="basePath"
+          d="M98.966 120.606C68.7722 120.606 44.2978 96.2737 44.2978 66.255C44.2978 36.2363 67.3868 13.3009 96.38 11.9564C91.3136 10.8021 86.0362 10.1921 80.6201 10.1921C41.7778 10.1921 10.291 41.4963 10.291 80.1133C10.291 118.73 41.7778 150.028 80.6135 150.028C119.449 150.028 149.148 120.468 150.863 83.3664C143.653 104.997 123.143 120.606 98.9594 120.606Z"
+          stroke="var(--lime)" stroke-opacity="0.06" stroke-width="2" />
+
+        <path class="basePath"
+          d="M87.527 91.4464C106.315 91.4464 121.547 76.3026 121.547 57.6237C121.547 39.4826 107.179 24.6733 89.1366 23.8404C92.2899 23.1255 95.5751 22.7451 98.9461 22.7451C123.11 22.7451 142.703 42.2241 142.703 66.2483C142.703 90.2724 123.11 109.751 98.9461 109.751C75.4613 109.751 56.2974 91.3611 55.2354 68.2683C59.7212 81.7266 72.4861 91.4398 87.527 91.4398Z"
+          stroke="var(--yellow)" stroke-opacity="0.05" stroke-width="1.5" />
+
+        <path id="splashTrailG" class="lightTrail" filter="url(#splashTrailGlow)"
+          d="M98.966 120.606C68.7722 120.606 44.2978 96.2737 44.2978 66.255C44.2978 36.2363 67.3868 13.3009 96.38 11.9564C91.3136 10.8021 86.0362 10.1921 80.6201 10.1921C41.7778 10.1921 10.291 41.4963 10.291 80.1133C10.291 118.73 41.7778 150.028 80.6135 150.028C119.449 150.028 149.148 120.468 150.863 83.3664C143.653 104.997 123.143 120.606 98.9594 120.606Z"
+          stroke="var(--lime)" stroke-width="1" stroke-opacity="0.5" />
+
+        <path id="splashTrailY" class="lightTrail" filter="url(#splashTrailGlow)"
+          d="M87.527 91.4464C106.315 91.4464 121.547 76.3026 121.547 57.6237C121.547 39.4826 107.179 24.6733 89.1366 23.8404C92.2899 23.1255 95.5751 22.7451 98.9461 22.7451C123.11 22.7451 142.703 42.2241 142.703 66.2483C142.703 90.2724 123.11 109.751 98.9461 109.751C75.4613 109.751 56.2974 91.3611 55.2354 68.2683C59.7212 81.7266 72.4861 91.4398 87.527 91.4398Z"
+          stroke="var(--yellow)" stroke-width="0.8" stroke-opacity="0.5" />
+
+        <g id="splashPointG" class="lightPoint" filter="url(#splashPointGlow)">
+          <circle r="14" fill="url(#splashGlowG)" />
+          <circle r="1.8" fill="#ffffff" fill-opacity="0.85" />
+        </g>
+
+        <g id="splashPointY" class="lightPoint" filter="url(#splashPointGlow)">
+          <circle r="11" fill="url(#splashGlowY)" />
+          <circle r="1.5" fill="#ffffff" fill-opacity="0.85" />
+        </g>
+
+        <path class="splash-fill"
+          d="M87.527 91.4464C106.315 91.4464 121.547 76.3026 121.547 57.6237C121.547 39.4826 107.179 24.6733 89.1366 23.8404C92.2899 23.1255 95.5751 22.7451 98.9461 22.7451C123.11 22.7451 142.703 42.2241 142.703 66.2483C142.703 90.2724 123.11 109.751 98.9461 109.751C75.4613 109.751 56.2974 91.3611 55.2354 68.2683C59.7212 81.7266 72.4861 91.4398 87.527 91.4398Z"
+          fill="var(--yellow)" />
+        <path class="splash-fill"
+          d="M98.966 120.606C68.7722 120.606 44.2978 96.2737 44.2978 66.255C44.2978 36.2363 67.3868 13.3009 96.38 11.9564C91.3136 10.8021 86.0362 10.1921 80.6201 10.1921C41.7778 10.1921 10.291 41.4963 10.291 80.1133C10.291 118.73 41.7778 150.028 80.6135 150.028C119.449 150.028 149.148 120.468 150.863 83.3664C143.653 104.997 123.143 120.606 98.9594 120.606Z"
+          fill="var(--lime)" />
+      </svg>
+    </div>
+  </div>
+
+  <!-- ======== Main Content ======== -->
+  <div class="main-content" id="mainContent">
   <div class="particles"></div>
 
   <!-- ======== Section 1: Teaser ======== -->
@@ -1637,6 +1845,168 @@
       thankYouStep.classList.add('visible');
     };
     questionnaireForm.addEventListener('submit', questionnaireForm._handler);
+  </script>
+
+  </div><!-- End main-content -->
+
+  <!-- Splash Animation Script -->
+  <script>
+    (function() {
+      var splash = document.getElementById('splashScreen');
+      var mainContent = document.getElementById('mainContent');
+      var pathG = document.getElementById('splashPathG');
+      var pathY = document.getElementById('splashPathY');
+      var trailG = document.getElementById('splashTrailG');
+      var trailY = document.getElementById('splashTrailY');
+      var pointG = document.getElementById('splashPointG');
+      var pointY = document.getElementById('splashPointY');
+
+      var lenG = pathG.getTotalLength();
+      var lenY = pathY.getTotalLength();
+
+      trailG.style.strokeDasharray = lenG;
+      trailG.style.strokeDashoffset = lenG;
+      trailY.style.strokeDasharray = lenY;
+      trailY.style.strokeDashoffset = lenY;
+
+      var gDelay = 800;
+      var gDuration = 4000;
+      var yDelay = 1200;
+      var yDuration = 3500;
+
+      var startTime = null;
+      var animationId = null;
+      var skipped = false;
+
+      function ease(t) {
+        return 1 - Math.pow(1 - t, 4);
+      }
+
+      // スキップ処理
+      function skipAnimation() {
+        if (skipped) return;
+        skipped = true;
+
+        // アニメーションを停止
+        if (animationId) {
+          cancelAnimationFrame(animationId);
+        }
+
+        // 発光点を非表示
+        pointG.style.display = 'none';
+        pointY.style.display = 'none';
+
+        // すぐにフェードアウト
+        splash.style.transition = 'opacity 0.4s ease-out';
+        splash.style.opacity = '0';
+        mainContent.classList.add('visible');
+
+        setTimeout(function() {
+          splash.style.display = 'none';
+        }, 400);
+
+        // イベントリスナーを削除
+        removeSkipListeners();
+      }
+
+      // スキップ用イベントリスナー
+      function onWheel(e) {
+        skipAnimation();
+      }
+      function onTouchMove(e) {
+        skipAnimation();
+      }
+      function onKeyDown(e) {
+        if (e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') {
+          skipAnimation();
+        }
+      }
+
+      function addSkipListeners() {
+        window.addEventListener('wheel', onWheel, { passive: true });
+        window.addEventListener('touchmove', onTouchMove, { passive: true });
+        window.addEventListener('keydown', onKeyDown);
+        splash.addEventListener('click', skipAnimation);
+      }
+
+      function removeSkipListeners() {
+        window.removeEventListener('wheel', onWheel);
+        window.removeEventListener('touchmove', onTouchMove);
+        window.removeEventListener('keydown', onKeyDown);
+        splash.removeEventListener('click', skipAnimation);
+      }
+
+      addSkipListeners();
+
+      function animate(time) {
+        if (skipped) return;
+
+        if (!startTime) startTime = time;
+        var elapsed = time - startTime;
+
+        var gT = elapsed - gDelay;
+        if (gT > 0) {
+          var gProgress = Math.min(gT / gDuration, 1);
+          var gEased = ease(gProgress);
+          trailG.style.strokeDashoffset = lenG * (1 - gEased);
+          var gPoint = pathG.getPointAtLength(lenG * gEased);
+          pointG.style.display = 'block';
+          pointG.setAttribute('transform', 'translate(' + gPoint.x + ',' + gPoint.y + ')');
+        }
+
+        var yT = elapsed - yDelay;
+        if (yT > 0) {
+          var yProgress = Math.min(yT / yDuration, 1);
+          var yEased = ease(yProgress);
+          trailY.style.strokeDashoffset = lenY * (1 - yEased);
+          var yPoint = pathY.getPointAtLength(lenY * yEased);
+          pointY.style.display = 'block';
+          pointY.setAttribute('transform', 'translate(' + yPoint.x + ',' + yPoint.y + ')');
+        }
+
+        var maxTime = Math.max(gDelay + gDuration, yDelay + yDuration);
+        if (elapsed < maxTime) {
+          animationId = requestAnimationFrame(animate);
+        } else {
+          removeSkipListeners();
+
+          // 発光点をフェードアウト
+          setTimeout(function() {
+            pointG.style.transition = 'opacity 0.3s ease-out';
+            pointY.style.transition = 'opacity 0.3s ease-out';
+            pointG.style.opacity = '0';
+            pointY.style.opacity = '0';
+
+            setTimeout(function() {
+              pointG.style.display = 'none';
+              pointY.style.display = 'none';
+              splash.classList.add('flash-on');
+            }, 300);
+          }, 100);
+
+          // ロゴが発光して消える
+          setTimeout(function() {
+            splash.classList.add('glow-out');
+          }, 1200);
+
+          // メインコンテンツ表示
+          setTimeout(function() {
+            mainContent.classList.add('visible');
+          }, 2800);
+
+          // スプラッシュ削除
+          setTimeout(function() {
+            splash.classList.add('fade-out');
+          }, 3000);
+
+          setTimeout(function() {
+            splash.style.display = 'none';
+          }, 3500);
+        }
+      }
+
+      animationId = requestAnimationFrame(animate);
+    })();
   </script>
 
 </body>
