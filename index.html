@@ -239,26 +239,26 @@
 
     /* Logo */
     .logo {
-      margin-bottom: 5vh;
+      margin-bottom: 4vh;
       opacity: 0;
       animation: fadeUp 0.8s ease-out 0.2s forwards;
     }
 
     .logo svg {
-      height: clamp(36px, 5vw, 56px);
+      height: clamp(48px, 8vw, 72px);
       width: auto;
     }
 
     /* Badge */
     .badge {
       display: inline-block;
-      padding: clamp(14px, 1.8vw, 22px) clamp(36px, 5vw, 72px);
+      padding: clamp(16px, 2vw, 26px) clamp(44px, 6vw, 80px);
       border: 1.5px solid rgba(204, 255, 51, 0.5);
-      font-size: clamp(15px, 1.8vw, 22px);
+      font-size: clamp(18px, 2.2vw, 26px);
       font-weight: 700;
       color: var(--brand);
       letter-spacing: 0.35em;
-      margin-bottom: 5vh;
+      margin-bottom: 4vh;
       opacity: 0;
       animation: fadeUp 0.8s ease-out 0.35s forwards;
       text-shadow: 0 0 20px rgba(204, 255, 51, 0.4);
@@ -1109,71 +1109,76 @@
     ======================================== */
     @media (max-width: 768px) {
       .teaser-content {
-        padding: 8vh 5vw 25vh;
+        padding: 6vh 5vw 22vh;
+      }
+
+      .logo {
+        margin-bottom: 3.5vh;
       }
 
       .logo svg {
-        height: 40px;
+        height: 56px;
       }
 
       .badge {
-        padding: 12px 28px;
-        font-size: 14px;
-        letter-spacing: 0.2em;
+        padding: 14px 36px;
+        font-size: 17px;
+        letter-spacing: 0.25em;
       }
 
       .counter {
-        gap: 12px;
-        margin-bottom: 5vh;
+        gap: 14px;
+        margin-bottom: 4vh;
       }
 
       .counter-prefix,
       .counter-suffix {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 700;
-        letter-spacing: 0.3em;
+        letter-spacing: 0.35em;
       }
 
       .counter-number {
-        font-size: 80px;
+        font-size: 90px;
       }
 
       .form-wrapper {
-        max-width: 92%;
-        padding: 0 4%;
+        max-width: 94%;
+        padding: 0 3%;
       }
 
       .email-form {
-        border-radius: 6px;
-        padding: 4px;
+        border-radius: 8px;
+        padding: 5px;
       }
 
       .email-input {
-        padding: 12px 14px;
-        font-size: 14px;
+        padding: 14px 16px;
+        font-size: 15px;
       }
 
       .email-submit {
-        padding: 12px 20px;
-        font-size: 14px;
+        padding: 14px 24px;
+        font-size: 15px;
         font-weight: 700;
-        border-radius: 4px;
+        border-radius: 6px;
       }
 
       .form-note {
-        font-size: 12px;
+        font-size: 13px;
+        margin-top: 14px;
       }
 
       .scroll-indicator {
-        bottom: 5vh;
+        bottom: 4vh;
       }
 
       .scroll-text {
-        font-size: 16px;
+        font-size: 15px;
       }
 
       .scroll-hint {
-        font-size: 11px;
+        font-size: 10px;
       }
 
       .arc-wrapper {
@@ -1275,38 +1280,59 @@
 
     @media (max-width: 480px) {
       .teaser-content {
-        padding: 6vh 4vw 30vh;
+        padding: 5vh 4vw 26vh;
+      }
+
+      .logo {
+        margin-bottom: 3vh;
       }
 
       .logo svg {
-        height: 36px;
+        height: 52px;
       }
 
       .badge {
-        padding: 10px 22px;
-        font-size: 13px;
-        letter-spacing: 0.15em;
+        padding: 12px 32px;
+        font-size: 16px;
+        letter-spacing: 0.2em;
+      }
+
+      .counter {
+        gap: 10px;
+        margin-bottom: 3.5vh;
       }
 
       .counter-number {
-        font-size: 56px;
+        font-size: 72px;
       }
 
       .counter-prefix,
       .counter-suffix {
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 700;
+        letter-spacing: 0.3em;
+      }
+
+      .email-form {
+        border-radius: 8px;
+        padding: 4px;
       }
 
       .email-input {
-        padding: 10px 12px;
-        font-size: 13px;
+        padding: 12px 14px;
+        font-size: 14px;
       }
 
       .email-submit {
-        padding: 10px 16px;
-        font-size: 13px;
+        padding: 12px 20px;
+        font-size: 14px;
         font-weight: 700;
+        border-radius: 6px;
+      }
+
+      .form-note {
+        font-size: 12px;
+        margin-top: 12px;
       }
 
       .arc-wrapper {
@@ -1367,6 +1393,39 @@
 
       .app-mockups {
         max-width: 90vw;
+      }
+    }
+
+    /* Very small phones */
+    @media (max-width: 360px) {
+      .logo svg {
+        height: 46px;
+      }
+
+      .badge {
+        padding: 10px 26px;
+        font-size: 14px;
+        letter-spacing: 0.18em;
+      }
+
+      .counter-number {
+        font-size: 60px;
+      }
+
+      .counter-prefix,
+      .counter-suffix {
+        font-size: 14px;
+        letter-spacing: 0.25em;
+      }
+
+      .email-input {
+        padding: 10px 12px;
+        font-size: 13px;
+      }
+
+      .email-submit {
+        padding: 10px 16px;
+        font-size: 13px;
       }
     }
   </style>
