@@ -9,9 +9,10 @@
   <meta property="og:title" content="Rep - 経営者のための最高のコミュニティ">
   <meta property="og:description" content="完全招待制・本人確認必須。経営者だけが集まるクローズドSNS。">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://rep.garoinc.jp">
-  <meta property="og:image" content="https://rep.garoinc.jp/ogp.png">
+  <meta property="og:url" content="https://purin2.github.io/rep-teaser-site/">
+  <meta property="og:image" content="https://vpxtqlgzsokqexnbjioe.supabase.co/functions/v1/og-image">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://vpxtqlgzsokqexnbjioe.supabase.co/functions/v1/og-image">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1087,22 +1088,6 @@
       box-shadow: 0 0 30px rgba(204, 255, 51, 0.5);
     }
 
-    .questionnaire-skip {
-      margin-top: 20px;
-      font-size: 13px;
-      font-weight: 500;
-      color: rgba(255,255,255,0.5);
-      background: none;
-      border: none;
-      cursor: pointer;
-      letter-spacing: 0.01em;
-      transition: color 0.2s;
-    }
-
-    .questionnaire-skip:hover {
-      color: rgba(255,255,255,0.8);
-    }
-
     .thank-you-icon {
       width: 56px;
       height: 56px;
@@ -1595,7 +1580,6 @@
           <div><label class="field-label">役職</label><input type="text" class="field-input" id="positionInput" placeholder="代表取締役"></div>
           <button type="submit" class="questionnaire-submit">登録を完了する</button>
         </form>
-        <button type="button" class="questionnaire-skip" id="skipBtn">スキップして完了</button>
       </div>
 
       <div class="thank-you" id="thankYouStep">
@@ -1776,8 +1760,6 @@
     const emailSubmit = document.getElementById('emailSubmit');
     const formError = document.getElementById('formError');
     const questionnaireForm = document.getElementById('questionnaireForm');
-    const skipBtn = document.getElementById('skipBtn');
-
     let userEmail = '';
 
     function isValidEmail(email) {
@@ -1806,12 +1788,6 @@
 
     questionnaireForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      questionnaireStep.classList.remove('visible');
-      questionnaireStep.style.display = 'none';
-      thankYouStep.classList.add('visible');
-    });
-
-    skipBtn.addEventListener('click', () => {
       questionnaireStep.classList.remove('visible');
       questionnaireStep.style.display = 'none';
       thankYouStep.classList.add('visible');
@@ -1929,7 +1905,8 @@
 
       questionnaireStep.classList.remove('visible');
       questionnaireStep.style.display = 'none';
-      thankYouStep.classList.add('visible');
+      // Redirect to thanks page
+      window.location.href = 'thanks.html';
     };
     questionnaireForm.addEventListener('submit', questionnaireForm._handler);
   </script>
