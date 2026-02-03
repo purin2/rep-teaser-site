@@ -10,11 +10,11 @@
   <meta property="og:description" content="完全招待制・本人確認必須。経営者だけが集まるクローズドSNS。特別招待枠で事前登録受付中！">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://purin2.github.io/rep-teaser-site/">
-  <meta property="og:image" content="https://purin2.github.io/rep-teaser-site/ogp-share.png">
+  <meta property="og:image" content="https://vpxtqlgzsokqexnbjioe.supabase.co/functions/v1/og-image">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Rep - 経営者限定SNSに事前登録しました">
   <meta name="twitter:description" content="完全招待制・本人確認必須。経営者だけが集まるクローズドSNS。">
-  <meta name="twitter:image" content="https://purin2.github.io/rep-teaser-site/ogp-share.png">
+  <meta name="twitter:image" content="https://vpxtqlgzsokqexnbjioe.supabase.co/functions/v1/og-image">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -268,37 +268,162 @@
       color: var(--brand);
     }
 
-    /* Remaining Counter */
-    .remaining-counter {
-      margin-top: 32px;
-      padding: 16px 32px;
-      background: rgba(204, 255, 51, 0.1);
-      border: 1px solid rgba(204, 255, 51, 0.3);
-      border-radius: 12px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease-out 1.1s forwards;
-    }
-
-    .remaining-label {
-      font-size: 12px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.6);
-      letter-spacing: 0.05em;
-      margin-bottom: 4px;
-    }
-
-    .remaining-number {
-      font-size: 28px;
+    /* Badge */
+    .badge {
+      display: inline-block;
+      padding: clamp(12px, 1.5vw, 20px) clamp(32px, 4vw, 60px);
+      border: 1.5px solid rgba(204, 255, 51, 0.5);
+      font-size: clamp(14px, 1.8vw, 20px);
       font-weight: 700;
       color: var(--brand);
-      letter-spacing: -0.02em;
+      letter-spacing: 0.35em;
+      margin-top: 32px;
+      margin-bottom: 16px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease-out 1s forwards;
+      text-shadow: 0 0 20px rgba(204, 255, 51, 0.4);
     }
 
-    .remaining-suffix {
-      font-size: 14px;
-      font-weight: 500;
-      color: rgba(255, 255, 255, 0.7);
-      margin-left: 4px;
+    /* Counter */
+    .counter {
+      display: flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: clamp(12px, 2vw, 28px);
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease-out 1.1s forwards;
+      position: relative;
+    }
+
+    .counter::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: clamp(250px, 50vw, 500px);
+      height: clamp(100px, 18vw, 200px);
+      background: radial-gradient(ellipse at center, rgba(204, 255, 51, 0.12) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+      filter: blur(20px);
+    }
+
+    .counter-prefix,
+    .counter-suffix {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(14px, 2vw, 24px);
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.85);
+      letter-spacing: 0.5em;
+      text-shadow: 0 0 20px rgba(204, 255, 51, 0.2);
+    }
+
+    .counter-number-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+
+    .counter-number {
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(60px, 14vw, 160px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      display: inline-block;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 2.5px rgba(204, 255, 51, 0.45);
+      filter: drop-shadow(0 0 20px rgba(204, 255, 51, 0.25));
+    }
+
+    .counter-number::before {
+      content: attr(data-number);
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 2.5px transparent;
+      background: linear-gradient(
+        175deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(240, 255, 200, 0.7) 5%,
+        rgba(204, 255, 51, 0.4) 15%,
+        transparent 30%,
+        transparent 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      z-index: 2;
+    }
+
+    .counter-number::after {
+      content: attr(data-number);
+      position: absolute;
+      top: 0;
+      left: 0;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: inherit;
+      letter-spacing: inherit;
+      line-height: inherit;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 2.5px transparent;
+      background: linear-gradient(
+        180deg,
+        transparent 0%,
+        transparent 60%,
+        rgba(120, 160, 40, 0.35) 75%,
+        rgba(160, 200, 50, 0.5) 90%,
+        rgba(180, 220, 60, 0.6) 100%
+      );
+      -webkit-background-clip: text;
+      background-clip: text;
+      z-index: 1;
+    }
+
+    .counter-number-wrapper::before {
+      content: attr(data-number);
+      position: absolute;
+      top: 5px;
+      left: 4px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(60px, 14vw, 160px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 2px rgba(80, 100, 20, 0.2);
+      z-index: -2;
+      filter: blur(6px);
+    }
+
+    .counter-number-wrapper::after {
+      content: attr(data-number);
+      position: absolute;
+      top: 2px;
+      left: 1px;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: clamp(60px, 14vw, 160px);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      -webkit-text-stroke: 1.5px rgba(204, 255, 51, 0.12);
+      z-index: -1;
+      filter: blur(3px);
     }
 
     /* Animations */
@@ -325,7 +450,61 @@
     }
 
     /* Mobile */
+    @media (max-width: 768px) {
+      .badge {
+        padding: 10px 28px;
+        font-size: 14px;
+        letter-spacing: 0.25em;
+      }
+
+      .counter {
+        gap: 10px;
+        margin-bottom: 32px;
+      }
+
+      .counter-prefix,
+      .counter-suffix {
+        font-size: 14px;
+        letter-spacing: 0.35em;
+      }
+
+      .counter-number {
+        font-size: 70px;
+      }
+
+      .counter-number-wrapper::before,
+      .counter-number-wrapper::after {
+        font-size: 70px;
+      }
+    }
+
     @media (max-width: 480px) {
+      .badge {
+        padding: 8px 24px;
+        font-size: 13px;
+        letter-spacing: 0.2em;
+      }
+
+      .counter {
+        gap: 8px;
+        margin-bottom: 28px;
+      }
+
+      .counter-prefix,
+      .counter-suffix {
+        font-size: 12px;
+        letter-spacing: 0.3em;
+      }
+
+      .counter-number {
+        font-size: 56px;
+      }
+
+      .counter-number-wrapper::before,
+      .counter-number-wrapper::after {
+        font-size: 56px;
+      }
+
       .share-buttons {
         flex-direction: column;
         gap: 12px;
@@ -373,11 +552,14 @@
       送付させていただきますのでお待ちください。
     </p>
 
-    <!-- Remaining Counter -->
-    <div class="remaining-counter">
-      <p class="remaining-label">特別招待枠 残り</p>
-      <span class="remaining-number" id="remainingCount">---</span>
-      <span class="remaining-suffix">名様</span>
+    <!-- Counter -->
+    <div class="badge">無料招待枠</div>
+    <div class="counter">
+      <span class="counter-prefix">あ と</span>
+      <span class="counter-number-wrapper" id="counterWrapper" data-number="---">
+        <span class="counter-number" id="remainingCount" data-number="---">---</span>
+      </span>
+      <span class="counter-suffix">名 様</span>
     </div>
 
     <!-- Share Section -->
@@ -442,12 +624,21 @@
 
           if (data) {
             remainingCount = parseInt(data.value, 10) || 0;
-            document.getElementById('remainingCount').textContent = remainingCount.toLocaleString();
+            const countEl = document.getElementById('remainingCount');
+            const wrapperEl = document.getElementById('counterWrapper');
+            const countStr = remainingCount.toString();
+            countEl.textContent = countStr;
+            countEl.setAttribute('data-number', countStr);
+            wrapperEl.setAttribute('data-number', countStr);
           }
         }
       } catch (e) {
         console.warn('Could not load remaining count');
-        document.getElementById('remainingCount').textContent = '---';
+        const countEl = document.getElementById('remainingCount');
+        const wrapperEl = document.getElementById('counterWrapper');
+        countEl.textContent = '1000';
+        countEl.setAttribute('data-number', '1000');
+        wrapperEl.setAttribute('data-number', '1000');
       }
     }
 
