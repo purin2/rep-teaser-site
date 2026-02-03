@@ -82,8 +82,27 @@
     }
 
     /* 発光エフェクト */
+    .splash-screen.glow-out {
+      animation: splashBgFadeOut 2s ease-out forwards;
+    }
+
     .splash-screen.glow-out .splash-wrap {
       animation: splashGlowOut 2s ease-out forwards;
+    }
+
+    @keyframes splashBgFadeOut {
+      0% {
+        background: #000;
+      }
+      30% {
+        background: rgba(0, 0, 0, 0.8);
+      }
+      60% {
+        background: rgba(0, 0, 0, 0.4);
+      }
+      100% {
+        background: transparent;
+      }
     }
 
     @keyframes splashGlowOut {
@@ -92,7 +111,7 @@
         transform: scale(1);
         opacity: 1;
       }
-      20% {
+      15% {
         filter: brightness(1.8)
                 drop-shadow(0 0 15px rgba(255, 255, 255, 0.8))
                 drop-shadow(0 0 40px rgba(204, 255, 51, 0.7))
@@ -100,20 +119,28 @@
         transform: scale(1.03);
         opacity: 1;
       }
-      50% {
+      35% {
         filter: brightness(2.2)
                 drop-shadow(0 0 25px rgba(255, 255, 255, 0.9))
                 drop-shadow(0 0 60px rgba(204, 255, 51, 0.6))
                 drop-shadow(0 0 100px rgba(204, 255, 51, 0.3));
         transform: scale(1.05);
-        opacity: 1;
+        opacity: 0.9;
+      }
+      60% {
+        filter: brightness(2)
+                drop-shadow(0 0 30px rgba(255, 255, 255, 0.7))
+                drop-shadow(0 0 70px rgba(204, 255, 51, 0.5))
+                drop-shadow(0 0 120px rgba(204, 255, 51, 0.2));
+        transform: scale(1.06);
+        opacity: 0.5;
       }
       100% {
-        filter: brightness(2.2)
-                drop-shadow(0 0 25px rgba(255, 255, 255, 0.9))
-                drop-shadow(0 0 60px rgba(204, 255, 51, 0.6))
-                drop-shadow(0 0 100px rgba(204, 255, 51, 0.3));
-        transform: scale(1.05);
+        filter: brightness(1.8)
+                drop-shadow(0 0 40px rgba(255, 255, 255, 0.5))
+                drop-shadow(0 0 80px rgba(204, 255, 51, 0.3))
+                drop-shadow(0 0 150px rgba(204, 255, 51, 0.1));
+        transform: scale(1.08);
         opacity: 0;
       }
     }
@@ -2044,21 +2071,17 @@
             }, 300);
           }, 100);
 
-          // ロゴが発光して消える
+          // メインコンテンツを先に表示（スプラッシュの後ろに）
+          setTimeout(function() {
+            mainContent.classList.add('visible');
+          }, 800);
+
+          // ロゴが発光しながらフェードアウト（背景が透けて見える）
           setTimeout(function() {
             splash.classList.add('glow-out');
           }, 1200);
 
-          // メインコンテンツ表示
-          setTimeout(function() {
-            mainContent.classList.add('visible');
-          }, 2800);
-
           // スプラッシュ削除
-          setTimeout(function() {
-            splash.classList.add('fade-out');
-          }, 3000);
-
           setTimeout(function() {
             splash.style.display = 'none';
           }, 3500);
