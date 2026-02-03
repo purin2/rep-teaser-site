@@ -1787,7 +1787,8 @@
     skipBtn.addEventListener('click', () => {
       questionnaireStep.classList.remove('visible');
       questionnaireStep.style.display = 'none';
-      thankYouStep.classList.add('visible');
+      // Redirect to thanks page
+      window.location.href = 'thanks.html';
     });
 
     // Scroll-triggered reveal
@@ -1902,7 +1903,8 @@
 
       questionnaireStep.classList.remove('visible');
       questionnaireStep.style.display = 'none';
-      thankYouStep.classList.add('visible');
+      // Redirect to thanks page
+      window.location.href = 'thanks.html';
     };
     questionnaireForm.addEventListener('submit', questionnaireForm._handler);
   </script>
