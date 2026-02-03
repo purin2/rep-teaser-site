@@ -901,12 +901,45 @@
             <label class="email-form-label">本文 (HTML)</label>
             <textarea class="email-form-textarea" id="templateBody" placeholder="メール本文（HTML形式）"></textarea>
             <div class="variables-hint">
-              使用可能な変数:
+              <strong>使用可能な変数:</strong><br>
               <code>{{name}}</code> ユーザー氏名
               <code>{{email}}</code> メールアドレス
               <code>{{coupon_code}}</code> クーポンコード
               <code>{{app_store_url}}</code> App Store URL
               <code>{{google_play_url}}</code> Google Play URL
+            </div>
+            <div class="variables-hint" style="margin-top: 12px;">
+              <strong>HTMLタグ早見表:</strong>
+              <table style="width: 100%; margin-top: 8px; font-size: 12px; border-collapse: collapse;">
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                  <td style="padding: 6px 0;"><code>&lt;p&gt;文章&lt;/p&gt;</code></td>
+                  <td style="padding: 6px 0; color: var(--text-muted);">段落</td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                  <td style="padding: 6px 0;"><code>&lt;br&gt;</code></td>
+                  <td style="padding: 6px 0; color: var(--text-muted);">改行</td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                  <td style="padding: 6px 0;"><code>&lt;strong&gt;文字&lt;/strong&gt;</code></td>
+                  <td style="padding: 6px 0; color: var(--text-muted);">太字</td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                  <td style="padding: 6px 0;"><code>&lt;h1&gt;見出し&lt;/h1&gt;</code></td>
+                  <td style="padding: 6px 0; color: var(--text-muted);">大見出し（h2, h3で小さく）</td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                  <td style="padding: 6px 0;"><code>&lt;a href="URL"&gt;リンク&lt;/a&gt;</code></td>
+                  <td style="padding: 6px 0; color: var(--text-muted);">リンク</td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                  <td style="padding: 6px 0;"><code>&lt;ul&gt;&lt;li&gt;項目&lt;/li&gt;&lt;/ul&gt;</code></td>
+                  <td style="padding: 6px 0; color: var(--text-muted);">箇条書きリスト</td>
+                </tr>
+                <tr>
+                  <td style="padding: 6px 0;"><code>&lt;hr&gt;</code></td>
+                  <td style="padding: 6px 0; color: var(--text-muted);">水平線</td>
+                </tr>
+              </table>
             </div>
           </div>
 
