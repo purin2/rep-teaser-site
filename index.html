@@ -479,7 +479,7 @@
       border: none;
       padding: 16px 20px;
       color: var(--text);
-      font-size: 15px;
+      font-size: 16px; /* Prevent iOS auto-zoom (must be >= 16px) */
       font-weight: 500;
       font-family: inherit;
       outline: none;
@@ -1093,7 +1093,7 @@
       border: 1px solid rgba(255,255,255,0.1);
       border-radius: 12px;
       color: var(--text);
-      font-size: 15px;
+      font-size: 16px; /* Prevent iOS auto-zoom (must be >= 16px) */
       font-weight: 500;
       font-family: inherit;
       letter-spacing: 0.01em;
@@ -1229,12 +1229,12 @@
 
       .email-input {
         padding: 14px 16px;
-        font-size: 15px;
+        font-size: 16px; /* Prevent iOS auto-zoom */
       }
 
       .email-submit {
         padding: 14px 24px;
-        font-size: 15px;
+        font-size: 16px; /* Keep consistent with input */
         font-weight: 700;
         border-radius: 6px;
       }
@@ -1395,12 +1395,12 @@
 
       .email-input {
         padding: 12px 14px;
-        font-size: 14px;
+        font-size: 16px; /* Prevent iOS auto-zoom */
       }
 
       .email-submit {
         padding: 12px 20px;
-        font-size: 14px;
+        font-size: 16px; /* Keep consistent with input */
         font-weight: 700;
         border-radius: 6px;
       }
@@ -1495,12 +1495,12 @@
 
       .email-input {
         padding: 10px 12px;
-        font-size: 13px;
+        font-size: 16px; /* Prevent iOS auto-zoom */
       }
 
       .email-submit {
         padding: 10px 16px;
-        font-size: 13px;
+        font-size: 16px; /* Keep consistent with input */
       }
     }
   </style>
@@ -2193,12 +2193,11 @@
         return;
       }
 
-      const registrationId = window.registrationAPI.getCurrentRegistrationId();
+      const registrationId = window.registrationAPI?.getCurrentRegistrationId?.();
       if (!registrationId) {
-        // Fallback: just show thank you
-        questionnaireStep.classList.remove('visible');
-        questionnaireStep.style.display = 'none';
-        thankYouStep.classList.add('visible');
+        // Fallback: redirect to thanks page anyway
+        document.documentElement.classList.remove('questionnaire-active');
+        window.location.href = 'thanks.html';
         return;
       }
 
