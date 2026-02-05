@@ -1017,13 +1017,22 @@
       display: block;
     }
 
-    /* Disable scroll-snap when questionnaire is active (for mobile input) */
+    /* Disable scroll-snap when any input is focused (for mobile input) */
+    html.input-focused,
     html.questionnaire-active {
       scroll-snap-type: none;
     }
 
+    html.input-focused body,
     html.questionnaire-active body {
       overflow-y: auto;
+    }
+
+    /* Prevent horizontal scroll on mobile input focus */
+    html.input-focused,
+    html.input-focused body {
+      overflow-x: hidden;
+      max-width: 100vw;
     }
 
     /* Add padding to questionnaire for comfortable mobile input */
@@ -1849,6 +1858,23 @@
 
     emailInput.addEventListener('input', () => {
       formError.classList.remove('visible');
+    });
+
+    // Disable scroll-snap when any input is focused (mobile fix)
+    // Apply to all email inputs on the page
+    document.querySelectorAll('.email-input').forEach(input => {
+      input.addEventListener('focus', () => {
+        document.documentElement.classList.add('input-focused');
+      });
+
+      input.addEventListener('blur', () => {
+        // Delay to allow click events to process
+        setTimeout(() => {
+          if (!document.activeElement || !document.activeElement.classList.contains('email-input')) {
+            document.documentElement.classList.remove('input-focused');
+          }
+        }, 100);
+      });
     });
 
     questionnaireForm.addEventListener('submit', (e) => {
