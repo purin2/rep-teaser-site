@@ -1017,6 +1017,31 @@
       display: block;
     }
 
+    /* Disable scroll-snap when questionnaire is active (for mobile input) */
+    html.questionnaire-active {
+      scroll-snap-type: none;
+    }
+
+    html.questionnaire-active body {
+      overflow-y: auto;
+    }
+
+    /* Add padding to questionnaire for comfortable mobile input */
+    html.questionnaire-active .questionnaire-form {
+      padding-bottom: 40vh; /* Extra space so last field can scroll up */
+    }
+
+    html.questionnaire-active .section-teaser {
+      scroll-snap-align: none;
+    }
+
+    /* Hide scroll indicator and arc when questionnaire is active */
+    html.questionnaire-active .scroll-indicator,
+    html.questionnaire-active .arc-wrapper,
+    html.questionnaire-active .arc-star {
+      display: none;
+    }
+
     .questionnaire-title {
       font-size: clamp(18px, 2vw, 24px);
       font-weight: 700;
@@ -1037,6 +1062,11 @@
       flex-direction: column;
       gap: 16px;
       text-align: left;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
     }
 
     .field-label {
@@ -1064,6 +1094,29 @@
       outline: none;
       border-color: rgba(255,255,255,0.25);
       background: rgba(255,255,255,0.1);
+    }
+
+    /* Field validation error state */
+    .field-input.error {
+      border-color: rgba(255, 107, 107, 0.6);
+      background: rgba(255, 107, 107, 0.08);
+    }
+
+    .field-error-message {
+      font-size: 12px;
+      font-weight: 500;
+      color: #ff6b6b;
+      margin-top: 6px;
+      opacity: 0;
+      height: 0;
+      overflow: hidden;
+      transition: opacity 0.3s, height 0.3s;
+    }
+
+    .field-error-message.visible {
+      opacity: 1;
+      height: auto;
+      margin-bottom: 8px;
     }
 
     .questionnaire-submit {
@@ -1575,9 +1628,21 @@
         <h2 class="questionnaire-title">あと少しで完了です</h2>
         <p class="questionnaire-desc">より良いサービス提供のため、いくつか質問にお答えください。</p>
         <form class="questionnaire-form" id="questionnaireForm">
-          <div><label class="field-label">氏名</label><input type="text" class="field-input" id="nameInput" placeholder="山田 太郎"></div>
-          <div><label class="field-label">会社名</label><input type="text" class="field-input" id="companyInput" placeholder="株式会社〇〇"></div>
-          <div><label class="field-label">役職</label><input type="text" class="field-input" id="positionInput" placeholder="代表取締役"></div>
+          <div class="field-group">
+            <label class="field-label">氏名 <span style="color: #ff6b6b;">*</span></label>
+            <input type="text" class="field-input" id="nameInput" placeholder="山田 太郎" data-required="true">
+            <p class="field-error-message" id="nameError">氏名を入力してください</p>
+          </div>
+          <div class="field-group">
+            <label class="field-label">会社名 <span style="color: #ff6b6b;">*</span></label>
+            <input type="text" class="field-input" id="companyInput" placeholder="株式会社〇〇" data-required="true">
+            <p class="field-error-message" id="companyError">会社名を入力してください</p>
+          </div>
+          <div class="field-group">
+            <label class="field-label">役職 <span style="color: #ff6b6b;">*</span></label>
+            <input type="text" class="field-input" id="positionInput" placeholder="代表取締役" data-required="true">
+            <p class="field-error-message" id="positionError">役職を入力してください</p>
+          </div>
           <button type="submit" class="questionnaire-submit">登録を完了する</button>
         </form>
       </div>
@@ -1878,10 +1943,162 @@
     };
     emailSubmit.addEventListener('click', emailSubmit._handler);
 
+    // Mobile input scroll handling for questionnaire
+    (function setupQuestionnaireScrollHandling() {
+      const questionnaireInputs = document.querySelectorAll('#questionnaireForm .field-input');
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      // Enable scroll-snap disable when questionnaire is active
+      function enableQuestionnaireMode() {
+        document.documentElement.classList.add('questionnaire-active');
+      }
+
+      function disableQuestionnaireMode() {
+        document.documentElement.classList.remove('questionnaire-active');
+      }
+
+      // Scroll input into comfortable position on mobile
+      function scrollInputIntoView(input) {
+        if (!isMobile) return;
+
+        // Prevent default scroll behavior
+        const preventScroll = (e) => {
+          // Allow scroll only if it's our programmatic scroll
+        };
+
+        // Wait for keyboard to appear
+        setTimeout(() => {
+          // Use visualViewport for iOS if available
+          const viewportHeight = window.visualViewport
+            ? window.visualViewport.height
+            : window.innerHeight;
+
+          const rect = input.getBoundingClientRect();
+
+          // Target position: input should be at about 30% from top of visible area
+          const targetPosition = viewportHeight * 0.3;
+          const currentPosition = rect.top;
+          const scrollDelta = currentPosition - targetPosition;
+
+          if (Math.abs(scrollDelta) > 20) {
+            window.scrollBy({
+              top: scrollDelta,
+              behavior: 'smooth'
+            });
+          }
+        }, 350); // Wait for mobile keyboard
+      }
+
+      // Handle iOS visualViewport resize (keyboard appearing)
+      if (window.visualViewport) {
+        let lastHeight = window.visualViewport.height;
+        window.visualViewport.addEventListener('resize', () => {
+          const currentHeight = window.visualViewport.height;
+          const heightDiff = lastHeight - currentHeight;
+
+          // If keyboard appeared (viewport shrunk significantly)
+          if (heightDiff > 100 && document.activeElement &&
+              document.activeElement.closest('#questionnaireForm')) {
+            scrollInputIntoView(document.activeElement);
+          }
+          lastHeight = currentHeight;
+        });
+      }
+
+      questionnaireInputs.forEach(input => {
+        input.addEventListener('focus', () => {
+          enableQuestionnaireMode();
+          scrollInputIntoView(input);
+
+          // Clear error state on focus
+          input.classList.remove('error');
+          const errorEl = input.parentElement.querySelector('.field-error-message');
+          if (errorEl) errorEl.classList.remove('visible');
+        });
+
+        input.addEventListener('blur', () => {
+          // Delay to allow form submission check
+          setTimeout(() => {
+            if (!document.activeElement || !document.activeElement.closest('#questionnaireForm')) {
+              disableQuestionnaireMode();
+            }
+          }, 100);
+        });
+      });
+
+      // Also enable questionnaire mode when step becomes visible
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+            if (questionnaireStep.classList.contains('visible')) {
+              enableQuestionnaireMode();
+            } else {
+              disableQuestionnaireMode();
+            }
+          }
+        });
+      });
+      observer.observe(questionnaireStep, { attributes: true });
+    })();
+
+    // Validate required fields and scroll to first empty one
+    function validateQuestionnaireFields() {
+      const fields = [
+        { input: document.getElementById('nameInput'), error: document.getElementById('nameError') },
+        { input: document.getElementById('companyInput'), error: document.getElementById('companyError') },
+        { input: document.getElementById('positionInput'), error: document.getElementById('positionError') }
+      ];
+
+      let firstInvalidField = null;
+      let isValid = true;
+
+      fields.forEach(({ input, error }) => {
+        const value = input.value.trim();
+        const isRequired = input.dataset.required === 'true';
+
+        if (isRequired && !value) {
+          input.classList.add('error');
+          if (error) error.classList.add('visible');
+          isValid = false;
+          if (!firstInvalidField) {
+            firstInvalidField = input;
+          }
+        } else {
+          input.classList.remove('error');
+          if (error) error.classList.remove('visible');
+        }
+      });
+
+      // Scroll to first invalid field
+      if (firstInvalidField) {
+        const rect = firstInvalidField.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const targetPosition = viewportHeight * 0.3;
+        const scrollDelta = rect.top - targetPosition;
+
+        window.scrollBy({
+          top: scrollDelta,
+          behavior: 'smooth'
+        });
+
+        // Focus after scroll
+        setTimeout(() => {
+          firstInvalidField.focus();
+        }, 400);
+      }
+
+      return isValid;
+    }
+
     // Override questionnaire submit
     questionnaireForm.removeEventListener('submit', questionnaireForm._handler);
     questionnaireForm._handler = async (e) => {
       e.preventDefault();
+
+      // Validate required fields
+      if (!validateQuestionnaireFields()) {
+        return;
+      }
 
       const registrationId = window.registrationAPI.getCurrentRegistrationId();
       if (!registrationId) {
@@ -1902,6 +2119,9 @@
         console.error('[App] Questionnaire update error:', e);
         // Continue to thank you even if update fails
       }
+
+      // Disable questionnaire mode
+      document.documentElement.classList.remove('questionnaire-active');
 
       questionnaireStep.classList.remove('visible');
       questionnaireStep.style.display = 'none';
