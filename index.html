@@ -1656,11 +1656,6 @@
         </form>
       </div>
 
-      <div class="thank-you" id="thankYouStep">
-        <div class="thank-you-icon">✓</div>
-        <h3 class="thank-you-title">登録ありがとうございます</h3>
-        <p class="thank-you-message">ローンチ時に優先的にご案内いたします。<br>今しばらくお待ちください。</p>
-      </div>
     </div>
 
     <div class="scroll-indicator" onclick="document.querySelector('.section-lp').scrollIntoView({behavior:'smooth'})">
@@ -1830,7 +1825,6 @@
     // Form logic
     const emailStep = document.getElementById('emailStep');
     const questionnaireStep = document.getElementById('questionnaireStep');
-    const thankYouStep = document.getElementById('thankYouStep');
     const emailInput = document.getElementById('emailInput');
     const emailSubmit = document.getElementById('emailSubmit');
     const formError = document.getElementById('formError');
@@ -1878,12 +1872,7 @@
       });
     });
 
-    questionnaireForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      questionnaireStep.classList.remove('visible');
-      questionnaireStep.style.display = 'none';
-      thankYouStep.classList.add('visible');
-    });
+    // Note: questionnaire submit handler is set up in the Supabase section below
 
     // Scroll-triggered reveal
     const revealElements = document.querySelectorAll('.reveal');
@@ -2183,9 +2172,8 @@
       return isValid;
     }
 
-    // Override questionnaire submit
-    questionnaireForm.removeEventListener('submit', questionnaireForm._handler);
-    questionnaireForm._handler = async (e) => {
+    // Questionnaire submit handler
+    questionnaireForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       // Validate required fields
@@ -2219,8 +2207,7 @@
       questionnaireStep.style.display = 'none';
       // Redirect to thanks page
       window.location.href = 'thanks.html';
-    };
-    questionnaireForm.addEventListener('submit', questionnaireForm._handler);
+    });
   </script>
 
   </div><!-- End main-content -->
