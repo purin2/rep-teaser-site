@@ -1694,10 +1694,11 @@
 
         <div class="lp-form reveal reveal-delay-2">
           <div class="email-form">
-            <input type="email" class="email-input" placeholder="Mail address">
-            <button type="button" class="email-submit">事前登録</button>
+            <input type="email" class="email-input" id="lpEmailInput" placeholder="Mail address" autocomplete="email">
+            <button type="button" class="email-submit" id="lpEmailSubmit">事前登録</button>
           </div>
           <p class="form-note">※ 登録した方から<span class="highlight">優先的</span>にご案内します</p>
+          <p class="form-error" id="lpFormError">有効なメールアドレスを入力してください</p>
         </div>
       </div>
 
@@ -1968,6 +1969,72 @@
       }
     };
     emailSubmit.addEventListener('click', emailSubmit._handler);
+
+    // LP Section email form handling
+    const lpEmailInput = document.getElementById('lpEmailInput');
+    const lpEmailSubmit = document.getElementById('lpEmailSubmit');
+    const lpFormError = document.getElementById('lpFormError');
+
+    if (lpEmailInput && lpEmailSubmit) {
+      lpEmailSubmit.addEventListener('click', async () => {
+        const email = lpEmailInput.value.trim();
+        if (!email || !isValidEmail(email)) {
+          lpFormError.textContent = '有効なメールアドレスを入力してください';
+          lpFormError.classList.add('visible');
+          return;
+        }
+        lpFormError.classList.remove('visible');
+
+        // Disable button during submission
+        lpEmailSubmit.disabled = true;
+        lpEmailSubmit.textContent = '送信中...';
+
+        try {
+          const result = await window.registrationAPI.register(email);
+
+          if (!result.success) {
+            if (result.error === 'duplicate_email') {
+              lpFormError.textContent = 'このメールアドレスは既に登録されています';
+            } else if (result.error === 'registration_closed') {
+              lpFormError.textContent = '申し訳ございません。受付は終了しました';
+            } else {
+              lpFormError.textContent = '登録に失敗しました。もう一度お試しください';
+            }
+            lpFormError.classList.add('visible');
+            lpEmailSubmit.disabled = false;
+            lpEmailSubmit.textContent = '事前登録';
+            return;
+          }
+
+          // Store registration ID for questionnaire
+          window.registrationAPI.setCurrentRegistrationId(result.id);
+          userEmail = email;
+
+          // Scroll to top and show questionnaire
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setTimeout(() => {
+            emailStep.style.display = 'none';
+            questionnaireStep.classList.add('visible');
+          }, 500);
+
+        } catch (e) {
+          console.error('[App] LP Registration error:', e);
+          lpFormError.textContent = '登録に失敗しました。もう一度お試しください';
+          lpFormError.classList.add('visible');
+        } finally {
+          lpEmailSubmit.disabled = false;
+          lpEmailSubmit.textContent = '事前登録';
+        }
+      });
+
+      lpEmailInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); lpEmailSubmit.click(); }
+      });
+
+      lpEmailInput.addEventListener('input', () => {
+        lpFormError.classList.remove('visible');
+      });
+    }
 
     // Mobile input scroll handling for questionnaire
     (function setupQuestionnaireScrollHandling() {
